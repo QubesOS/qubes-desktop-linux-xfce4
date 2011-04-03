@@ -2,6 +2,7 @@ Summary: Next generation window manager for Xfce
 Name: xfwm4
 Version: 4.6.1
 Release: 7%{?dist}
+Epoch: 1000
 License: GPLv2+
 URL: http://www.xfce.org/
 Source0: http://www.xfce.org/archive/xfce-%{version}/src/xfwm4-%{version}.tar.bz2
