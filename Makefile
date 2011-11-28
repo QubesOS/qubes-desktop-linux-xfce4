@@ -11,3 +11,6 @@ rpms:
 srpms:
 	rpmbuild --define "_srcrpmdir $(SRPMS_DIR)" --define "_sourcedir $(PWD)/xfwm4" -bs xfwm4/xfwm4.spec
 	rpm --addsign $(SRPMS_DIR)/*.rpm
+
+clean:
+
