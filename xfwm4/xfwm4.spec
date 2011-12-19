@@ -12,6 +12,7 @@ Patch2: xfwm4-4.6.1-multi-monitor.patch
 # Upstream bug: http://bugzilla.xfce.org/show_bug.cgi?id=6231
 Patch3: xfwm4-4.6.1-dsofix.patch
 Patch4: xfwm4-4.6.1-qubes-decoration.patch
+Patch5: xfwm4-4.6.1-cleanup-idle-queue.patch
 
 Group: User Interface/Desktops
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -40,6 +41,7 @@ xfwm4 is a window manager compatible with GNOME, GNOME2, KDE2, KDE3 and Xfce.
 %patch2 -p1 -b .multiwindow
 %patch3 -p1 -b .dsofix
 %patch4 -p1 -b .qubes-decoration
+%patch5 -p1 -b .cleanup-idle-queue
 
 %build
 %configure  --disable-static

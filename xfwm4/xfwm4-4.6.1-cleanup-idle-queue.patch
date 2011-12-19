@@ -1,0 +1,15 @@
+Cleanup idle callbacks when unframing windows. Prevent calling frame draw
+callback on already destroyed windows (SEGV).
+
+--- xfwm4-4.6.1.orig/src/client.c.orig	2011-12-18 23:32:41.260000247 +0100
++++ xfwm4-4.6.1.orig/src/client.c	2011-12-18 23:33:54.459999471 +0100
+@@ -2122,6 +2122,9 @@ clientUnframe (Client * c, gboolean rema
+     screen_info = c->screen_info;
+     display_info = screen_info->display_info;
+ 
++    while (g_idle_remove_by_data(c)) {
++        TRACE ("WARNING: some entries left in idle queue; removed");
++    }
+     clientRemoveFromList (c);
+     compositorSetClient (display_info, c->frame, NULL);
+ 
