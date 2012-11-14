@@ -8,7 +8,11 @@ SPECFILE := xfwm4/xfwm4.spec
 
 VER_REL := $(shell rpm $(RPM_DEFINES) -q --qf "%{VERSION}-%{RELEASE}\n" --specfile $(SPECFILE)| head -1|sed -e 's/fc../fc13/')
 
-rpms:   
+rpms: rpms-dom0
+
+rpms-vm:
+
+rpms-dom0:
 	rpmbuild $(RPM_DEFINES) -bb $(SPECFILE)
 	rpm --addsign $(RPMS_DIR)/x86_64/*$(VER_REL)*.rpm
 
