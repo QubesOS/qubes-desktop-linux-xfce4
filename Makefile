@@ -29,8 +29,5 @@ update-repo-testing:
 update-repo-unstable:
 	ln -f rpm/x86_64/*$(VER_REL)*.rpm ../yum/current-release/unstable/dom0/rpm/
 
-update-repo-installer:
-	ln -f rpm/x86_64/*$(VER_REL)*.rpm ../installer/yum/qubes-dom0/rpm/
-
 clean:
 
