@@ -3,6 +3,7 @@
 Name:           xfwm4
 Version:        4.10.0
 Release:        5%{?dist}
+Epoch:          1000
 Summary:        Next generation window manager for Xfce
 
 Group:          User Interface/Desktops
