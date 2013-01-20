@@ -25,6 +25,9 @@ Patch2:         xfwm4-4.10.0-workspace-deletion.patch
 ## Downstream patches:
 # Fix desktop categories
 Patch10:        xfwm4-4.9.0-desktop-fix.patch
+
+Patch100:	xfwm4-4.10.0-qubes-decoration.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  libxfce4ui-devel >= %{xfceversion}
@@ -49,6 +52,8 @@ xfwm4 is a window manager compatible with GNOME, GNOME2, KDE2, KDE3 and Xfce.
 %patch1 -p1 -b .title-alignment
 %patch2 -p1 -b .workspace-deletion
 %patch10 -p1 -b .categories
+
+%patch100 -p1 -b .qubes
 
 
 %build

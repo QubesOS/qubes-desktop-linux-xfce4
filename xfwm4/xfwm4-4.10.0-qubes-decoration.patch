@@ -1,7 +1,7 @@
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.6.1.qubes/src/client.c
---- xfwm4-4.6.1/src/client.c	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/client.c	2011-04-03 19:29:01.388719776 +0200
-@@ -163,6 +163,88 @@ clientUpdateColormaps (Client * c)
+diff -ur xfwm4-4.8.1/src/client.c xfwm4-4.8.1.qubes/src/client.c
+--- xfwm4-4.8.1/src/client.c	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/client.c	2011-04-17 19:55:48.528465844 +0200
+@@ -165,6 +165,88 @@
      }
  }
  
@@ -10,93 +10,93 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
 +{
 +    ScreenInfo *screen_info;
 +    DisplayInfo *display_info;
-+	Atom atom_label;
-+	
++    Atom atom_label;
++
 +    screen_info = c->screen_info;
 +    display_info = screen_info->display_info;
 +
-+	atom_label = XInternAtom(display_info->dpy, "_QUBES_LABEL", TRUE);
++    atom_label = XInternAtom(display_info->dpy, "_QUBES_LABEL", TRUE);
 +
-+	if (atom_label == 0) {
-+		c->qubes_label = QUBES_LABEL_DOM0;
-+	} else {
-+		Atom actual_type;
-+		int actual_format;
-+		unsigned long nitems = 0, bytes_left;
-+		char *data = 0;
++    if (atom_label == 0) {
++        c->qubes_label = QUBES_LABEL_DOM0;
++    } else {
++        Atom actual_type;
++        int actual_format;
++        unsigned long nitems = 0, bytes_left;
++        char *data = 0;
 +
-+		if ((XGetWindowProperty (display_info->dpy, c->window, atom_label, 0L, 1L,
-+						FALSE, AnyPropertyType, &actual_type, &actual_format, &nitems,
-+						&bytes_left, (unsigned char **) &data) == Success))
-+		{
-+			if (nitems != 1) {
++        if ((XGetWindowProperty (display_info->dpy, c->window, atom_label, 0L, 1L,
++                        FALSE, AnyPropertyType, &actual_type, &actual_format, &nitems,
++                        &bytes_left, (unsigned char **) &data) == Success))
++        {
++            if (nitems != 1) {
 +                // ERROR? Only Dom0 Windows don't have this property set...
 +                c->qubes_label = QUBES_LABEL_DOM0;
 +            } else {
 +                c->qubes_label = (int)*data;
-+			}
-+		} else {
++            }
++        } else {
 +            c->qubes_label = QUBES_LABEL_DOM0;
-+		}
-+	}
++        }
++    }
 +}
 +
-+void 
++void
 +getQubesVmName (Client *c)
 +{
 +    ScreenInfo *screen_info;
 +    DisplayInfo *display_info;
 +    gchar *qubes_vmname;
-+	Atom atom_vmname;
-+	
++    Atom atom_vmname;
++
 +    screen_info = c->screen_info;
 +    display_info = screen_info->display_info;
 +
-+	if (c->qubes_vmname)
-+		return;
++    if (c->qubes_vmname)
++        return;
 +
-+	atom_vmname = XInternAtom(display_info->dpy, "_QUBES_VMNAME", TRUE);
++    atom_vmname = XInternAtom(display_info->dpy, "_QUBES_VMNAME", TRUE);
 +
-+	if (atom_vmname == 0) {
-+		c->qubes_vmname = g_strdup("[Dom0] ");
-+	} else {
-+		Atom actual_type;
-+		int actual_format;
-+		unsigned long nitems = 0, bytes_left;
-+		char *data = 0;
++    if (atom_vmname == 0) {
++        c->qubes_vmname = g_strdup("[Dom0] ");
++    } else {
++        Atom actual_type;
++        int actual_format;
++        unsigned long nitems = 0, bytes_left;
++        char *data = 0;
 +
-+		if ((XGetWindowProperty (display_info->dpy, c->window, atom_vmname, 0L, 0L,
-+						FALSE, AnyPropertyType, &actual_type, &actual_format, &nitems,
-+						&bytes_left, (unsigned char **) &data) == Success))
-+		{
-+			if (bytes_left > 0) {
-+				if ((XGetWindowProperty (display_info->dpy, c->window, atom_vmname, 0L, bytes_left,
-+								FALSE, AnyPropertyType, &actual_type, &actual_format, &nitems,
-+								&bytes_left, (unsigned char **) &data) == Success))
-+				{
-+					c->qubes_vmname = g_strdup_printf (_("[%s] "), data);
-+				} else {
-+					c->qubes_vmname = g_strdup (_("[ERROR Reading VM name?!] "));
-+				}
-+			} else {
-+				c->qubes_vmname = g_strdup("[Dom0] ");
-+			}
-+		} else {
-+			c->qubes_vmname = g_strdup("[Dom0] ");
-+		}
-+	}
++        if ((XGetWindowProperty (display_info->dpy, c->window, atom_vmname, 0L, 0L,
++                        FALSE, AnyPropertyType, &actual_type, &actual_format, &nitems,
++                        &bytes_left, (unsigned char **) &data) == Success))
++        {
++            if (bytes_left > 0) {
++                if ((XGetWindowProperty (display_info->dpy, c->window, atom_vmname, 0L, bytes_left,
++                                FALSE, AnyPropertyType, &actual_type, &actual_format, &nitems,
++                                &bytes_left, (unsigned char **) &data) == Success))
++                {
++                    c->qubes_vmname = g_strdup_printf (_("[%s] "), data);
++                } else {
++                    c->qubes_vmname = g_strdup (_("[ERROR Reading VM name?!] "));
++                }
++            } else {
++                c->qubes_vmname = g_strdup("[Dom0] ");
++            }
++        } else {
++            c->qubes_vmname = g_strdup("[Dom0] ");
++        }
++    }
 +}
 +
  static gchar*
- clientCreateTitleName (Client * c, gchar *name, gchar *hostname)
+ clientCreateTitleName (Client *c, gchar *name, gchar *hostname)
  {
-@@ -176,14 +258,16 @@ clientCreateTitleName (Client * c, gchar
+@@ -178,14 +260,16 @@
      screen_info = c->screen_info;
      display_info = screen_info->display_info;
  
-+	getQubesVmName (c);
++    getQubesVmName (c);
 +
-     if (strlen (hostname) && (display_info->hostname) && (g_strcasecmp (display_info->hostname, hostname)))
+     if (strlen (hostname) && (display_info->hostname) && (g_ascii_strcasecmp (display_info->hostname, hostname)))
      {
          /* TRANSLATORS: "(on %s)" is like "running on" the name of the other host */
 -        title = g_strdup_printf (_("%s (on %s)"), name, hostname);
@@ -109,7 +109,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
      }
  
      return title;
-@@ -1239,6 +1323,10 @@ clientFree (Client * c)
+@@ -1251,6 +1335,10 @@
      {
          g_free (c->hostname);
      }
@@ -120,7 +120,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
  #ifdef HAVE_XSYNC
      if (c->xsync_alarm != None)
      {
-@@ -1478,7 +1566,7 @@ clientUpdateIconPix (Client * c)
+@@ -1490,7 +1578,7 @@
          xfwmPixmapFree (&c->appmenu[i]);
      }
  
@@ -129,7 +129,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
      {
          /* The current theme has no menu button */
          return;
-@@ -1486,13 +1574,13 @@ clientUpdateIconPix (Client * c)
+@@ -1498,13 +1586,13 @@
  
      for (i = 0; i < STATE_TOGGLED; i++)
      {
@@ -147,7 +147,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
  
      if (size > 1)
      {
-@@ -1638,6 +1726,11 @@ clientFrame (DisplayInfo *display_info, 
+@@ -1650,6 +1738,11 @@
      getTransientFor (display_info, screen_info->xroot, c->window, &c->transient_for);
      XChangeSaveSet(display_info->dpy, c->window, SetModeInsert);
  
@@ -159,7 +159,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
      /* Initialize structure */
      c->size = NULL;
      c->flags = 0L;
-@@ -3690,32 +3783,32 @@ clientGetButtonPixmap (Client * c, int b
+@@ -3730,32 +3823,32 @@
              break;
          case SHADE_BUTTON:
              if (FLAG_TEST (c->flags, CLIENT_FLAG_SHADED)
@@ -202,11 +202,12 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.c xfwm4-4.
  }
  
  int
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.h xfwm4-4.6.1.qubes/src/client.h
---- xfwm4-4.6.1/src/client.h	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/client.h	2011-03-20 02:35:13.428324534 +0100
-@@ -293,6 +293,8 @@ struct _Client
-     int struts[STRUTS_SIZE];
+Only in xfwm4-4.8.1.qubes/src: client.c.orig
+diff -ur xfwm4-4.8.1/src/client.h xfwm4-4.8.1.qubes/src/client.h
+--- xfwm4-4.8.1/src/client.h	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/client.h	2011-04-17 19:55:48.531474798 +0200
+@@ -296,6 +296,8 @@
+     gint struts[STRUTS_SIZE];
      gchar *hostname;
      gchar *name;
 +    gchar *qubes_vmname;
@@ -214,10 +215,11 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/client.h xfwm4-4.
      guint32 user_time;
      GPid pid;
      guint32 ping_time;
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6.1.qubes/src/frame.c
---- xfwm4-4.6.1/src/frame.c	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/frame.c	2011-04-03 22:57:50.241394593 +0200
-@@ -52,7 +52,7 @@ frameDecorationLeft (ScreenInfo *screen_
+Only in xfwm4-4.8.1.qubes/src: client.h.orig
+diff -ur xfwm4-4.8.1/src/frame.c xfwm4-4.8.1.qubes/src/frame.c
+--- xfwm4-4.8.1/src/frame.c	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/frame.c	2011-04-17 19:59:21.723465979 +0200
+@@ -52,7 +52,7 @@
      TRACE ("entering frameDecorationLeft");
  
      g_return_val_if_fail (screen_info != NULL, 0);
@@ -226,7 +228,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  }
  
  int
-@@ -61,7 +61,7 @@ frameDecorationRight (ScreenInfo *screen
+@@ -61,7 +61,7 @@
      TRACE ("entering frameDecorationRight");
  
      g_return_val_if_fail (screen_info != NULL, 0);
@@ -235,7 +237,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  }
  
  int
-@@ -70,7 +70,7 @@ frameDecorationTop (ScreenInfo *screen_i
+@@ -70,7 +70,7 @@
      TRACE ("entering frameDecorationTop");
  
      g_return_val_if_fail (screen_info != NULL, 0);
@@ -244,7 +246,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  }
  
  int
-@@ -79,7 +79,7 @@ frameDecorationBottom (ScreenInfo *scree
+@@ -79,7 +79,7 @@
      TRACE ("entering frameDecorationBottom");
  
      g_return_val_if_fail (screen_info != NULL, 0);
@@ -253,7 +255,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  }
  
  int
-@@ -93,7 +93,7 @@ frameLeft (Client * c)
+@@ -93,7 +93,7 @@
          && (!FLAG_TEST_ALL (c->flags, CLIENT_FLAG_MAXIMIZED)
              || !(c->screen_info->params->borderless_maximize)))
      {
@@ -262,7 +264,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
      }
      return 0;
  }
-@@ -109,7 +109,7 @@ frameRight (Client * c)
+@@ -109,7 +109,7 @@
          && (!FLAG_TEST_ALL (c->flags, CLIENT_FLAG_MAXIMIZED)
              || !(c->screen_info->params->borderless_maximize)))
      {
@@ -271,7 +273,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
      }
      return 0;
  }
-@@ -123,7 +123,7 @@ frameTop (Client * c)
+@@ -123,7 +123,7 @@
      if (FLAG_TEST (c->xfwm_flags, XFWM_FLAG_HAS_BORDER)
          && !FLAG_TEST (c->flags, CLIENT_FLAG_FULLSCREEN))
      {
@@ -280,7 +282,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
      }
      return 0;
  }
-@@ -139,7 +139,7 @@ frameBottom (Client * c)
+@@ -139,7 +139,7 @@
          && (!FLAG_TEST_ALL (c->flags, CLIENT_FLAG_MAXIMIZED)
              || !(c->screen_info->params->borderless_maximize)))
      {
@@ -289,7 +291,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
      }
      return 0;
  }
-@@ -221,7 +221,7 @@ frameTopLeftWidth (Client * c, int state
+@@ -221,7 +221,7 @@
      {
          return 0;
      }
@@ -298,7 +300,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  
  }
  
-@@ -236,7 +236,7 @@ frameTopRightWidth (Client * c, int stat
+@@ -236,7 +236,7 @@
      {
          return 0;
      }
@@ -307,7 +309,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  }
  
  static int
-@@ -266,15 +266,15 @@ frameFillTitlePixmap (Client * c, int st
+@@ -266,15 +266,15 @@
  
      screen_info = c->screen_info;
  
@@ -327,7 +329,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  }
  
  static void
-@@ -358,9 +358,9 @@ frameCreateTitlePixmap (Client * c, int 
+@@ -359,9 +359,9 @@
          title_y = MAX (0, frameTop (c) - title_height);
      }
  
@@ -339,7 +341,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
      }
      else
      {
-@@ -372,8 +372,8 @@ frameCreateTitlePixmap (Client * c, int 
+@@ -373,8 +373,8 @@
      }
  
      w1 = 0;
@@ -350,7 +352,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  
      if (screen_info->params->full_width_title)
      {
-@@ -667,25 +667,25 @@ frameSetShape (Client * c, int state, Fr
+@@ -674,25 +674,25 @@
          if (xfwmWindowVisible (&c->corners[CORNER_BOTTOM_LEFT]))
          {
              XShapeCombineMask (display_info->dpy, MYWINDOW_XWINDOW (c->corners[CORNER_BOTTOM_LEFT]),
@@ -380,7 +382,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
          }
  
          for (i = 0; i < BUTTON_COUNT; i++)
-@@ -699,48 +699,48 @@ frameSetShape (Client * c, int state, Fr
+@@ -706,48 +706,48 @@
          }
  
          if (xfwmWindowVisible (&c->corners[CORNER_TOP_LEFT]) &&
@@ -439,28 +441,28 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                             - (frameHeight (c) - frameTop (c) + 1);
              XShapeCombineRectangles (display_info->dpy, MYWINDOW_XWINDOW (c->corners[CORNER_BOTTOM_RIGHT]),
                                       ShapeBounding, 0, 0, &rect, 1, ShapeSubtract, 0);
-@@ -778,7 +778,7 @@ frameSetShape (Client * c, int state, Fr
+@@ -785,7 +785,7 @@
          if (xfwmWindowVisible (&c->sides[SIDE_BOTTOM]))
          {
-             XShapeCombineShape (display_info->dpy, shape_win, ShapeBounding,
+             XShapeCombineShape (display_info->dpy, screen_info->shape_win, ShapeBounding,
 -                                screen_info->corners[CORNER_BOTTOM_LEFT][state].width,
 +                                screen_info->corners[c->qubes_label][CORNER_BOTTOM_LEFT][state].width,
                                  frameHeight (c) - frameBottom (c),
                                  MYWINDOW_XWINDOW (c->sides[SIDE_BOTTOM]), ShapeBounding, ShapeUnion);
          }
-@@ -786,7 +786,7 @@ frameSetShape (Client * c, int state, Fr
+@@ -793,7 +793,7 @@
          if (xfwmWindowVisible (&c->sides[SIDE_TOP]))
          {
-             XShapeCombineShape (display_info->dpy, shape_win, ShapeBounding,
+             XShapeCombineShape (display_info->dpy, screen_info->shape_win, ShapeBounding,
 -                                screen_info->corners[CORNER_BOTTOM_LEFT][state].width,
 +                                screen_info->corners[c->qubes_label][CORNER_BOTTOM_LEFT][state].width,
                                  frameTop (c) - frameBottom (c),
                                  MYWINDOW_XWINDOW (c->sides[SIDE_TOP]), ShapeBounding, ShapeUnion);
          }
-@@ -794,15 +794,15 @@ frameSetShape (Client * c, int state, Fr
+@@ -801,15 +801,15 @@
          if (xfwmWindowVisible (&c->corners[CORNER_BOTTOM_LEFT]))
          {
-             XShapeCombineShape (display_info->dpy, shape_win, ShapeBounding, 0,
+             XShapeCombineShape (display_info->dpy, screen_info->shape_win, ShapeBounding, 0,
 -                                frameHeight (c) - screen_info->corners[CORNER_BOTTOM_LEFT][state].height,
 +                                frameHeight (c) - screen_info->corners[c->qubes_label][CORNER_BOTTOM_LEFT][state].height,
                                  MYWINDOW_XWINDOW (c->corners[CORNER_BOTTOM_LEFT]), ShapeBounding, ShapeUnion);
@@ -468,7 +470,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  
          if (xfwmWindowVisible (&c->corners[CORNER_BOTTOM_RIGHT]))
          {
-             XShapeCombineShape (display_info->dpy, shape_win, ShapeBounding,
+             XShapeCombineShape (display_info->dpy, screen_info->shape_win, ShapeBounding,
 -                                frameWidth (c) - screen_info->corners[CORNER_BOTTOM_RIGHT][state].width,
 -                                frameHeight (c) - screen_info->corners[CORNER_BOTTOM_RIGHT][state].height,
 +                                frameWidth (c) - screen_info->corners[c->qubes_label][CORNER_BOTTOM_RIGHT][state].width,
@@ -476,16 +478,16 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                                  MYWINDOW_XWINDOW (c->corners[CORNER_BOTTOM_RIGHT]), ShapeBounding, ShapeUnion);
          }
  
-@@ -818,7 +818,7 @@ frameSetShape (Client * c, int state, Fr
+@@ -825,7 +825,7 @@
              if (xfwmWindowVisible (&c->buttons[i]))
              {
-                 XShapeCombineShape (display_info->dpy, shape_win, ShapeBounding, button_x[i],
+                 XShapeCombineShape (display_info->dpy, screen_info->shape_win, ShapeBounding, button_x[i],
 -                                    (frameTop (c) - screen_info->buttons[i][state].height + 1) / 2,
 +                                    (frameTop (c) - screen_info->buttons[c->qubes_label][i][state].height + 1) / 2,
                                      MYWINDOW_XWINDOW (c->buttons[i]), ShapeBounding, ShapeUnion);
              }
          }
-@@ -953,7 +953,7 @@ frameDrawWin (Client * c)
+@@ -985,7 +985,7 @@
              }
              else if (button >= 0)
              {
@@ -494,7 +496,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                  {
                      my_pixmap = clientGetButtonPixmap (c, button, clientGetButtonState (c, button, state));
                      if (!xfwmPixmapNone(my_pixmap))
-@@ -961,11 +961,11 @@ frameDrawWin (Client * c)
+@@ -993,11 +993,11 @@
                          xfwmWindowSetBG (&c->buttons[button], my_pixmap);
                      }
                      xfwmWindowShow (&c->buttons[button], x,
@@ -510,7 +512,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                          screen_info->params->button_spacing;
                  }
                  else
-@@ -988,19 +988,19 @@ frameDrawWin (Client * c)
+@@ -1020,19 +1020,19 @@
              }
              else if (button >= 0)
              {
@@ -535,7 +537,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                      button_x[button] = x;
                  }
                  else
-@@ -1014,12 +1014,12 @@ frameDrawWin (Client * c)
+@@ -1046,12 +1046,12 @@
  
          top_width = frameWidth (c) - frameTopLeftWidth (c, state) - frameTopRightWidth (c, state);
          bottom_width = frameWidth (c) -
@@ -552,7 +554,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
  
          xfwmPixmapInit (screen_info, &frame_pix.pm_title);
          xfwmPixmapInit (screen_info, &frame_pix.pm_sides[SIDE_TOP]);
-@@ -1038,13 +1038,13 @@ frameDrawWin (Client * c)
+@@ -1070,13 +1070,13 @@
          if (requires_clearing)
          {
              xfwmWindowSetBG (&c->corners[CORNER_TOP_LEFT],
@@ -570,7 +572,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
          }
  
          if (FLAG_TEST_ALL (c->flags, CLIENT_FLAG_MAXIMIZED)
-@@ -1070,7 +1070,7 @@ frameDrawWin (Client * c)
+@@ -1102,7 +1102,7 @@
              {
                  xfwmPixmapCreate (screen_info, &frame_pix.pm_sides[SIDE_LEFT],
                      frameLeft (c), left_height);
@@ -579,7 +581,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                      &frame_pix.pm_sides[SIDE_LEFT],
                      0, 0, frameLeft (c), left_height);
                  xfwmWindowSetBG (&c->sides[SIDE_LEFT],
-@@ -1080,7 +1080,7 @@ frameDrawWin (Client * c)
+@@ -1112,7 +1112,7 @@
  
                  xfwmPixmapCreate (screen_info, &frame_pix.pm_sides[SIDE_RIGHT],
                      frameRight (c), right_height);
@@ -588,7 +590,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                      &frame_pix.pm_sides[SIDE_RIGHT],
                      0, 0, frameRight (c), right_height);
                  xfwmWindowSetBG (&c->sides[SIDE_RIGHT],
-@@ -1092,13 +1092,13 @@ frameDrawWin (Client * c)
+@@ -1124,13 +1124,13 @@
  
              xfwmPixmapCreate (screen_info, &frame_pix.pm_sides[SIDE_BOTTOM],
                  bottom_width, frameBottom (c));
@@ -604,7 +606,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                  frameHeight (c) - frameBottom (c), bottom_width, frameBottom (c),
                  (requires_clearing | width_changed));
  
-@@ -1106,7 +1106,7 @@ frameDrawWin (Client * c)
+@@ -1138,7 +1138,7 @@
              {
                  xfwmWindowSetBG (&c->sides[SIDE_TOP], &frame_pix.pm_sides[SIDE_TOP]);
                  xfwmWindowShow (&c->sides[SIDE_TOP],
@@ -613,7 +615,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                      0, top_width, frame_pix.pm_sides[SIDE_TOP].height,
                      (requires_clearing | width_changed));
              }
-@@ -1117,29 +1117,29 @@ frameDrawWin (Client * c)
+@@ -1149,29 +1149,29 @@
  
              xfwmWindowShow (&c->corners[CORNER_TOP_LEFT], 0, 0,
                  frameTopLeftWidth (c, state),
@@ -652,9 +654,10 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/frame.c xfwm4-4.6
                  requires_clearing);
          }
          frameSetShape (c, state, &frame_pix, button_x);
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-4.6.1.qubes/src/mypixmap.c
---- xfwm4-4.6.1/src/mypixmap.c	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/mypixmap.c	2011-04-03 22:36:28.593426392 +0200
+Only in xfwm4-4.8.1.qubes/src: frame.c.orig
+diff -ur xfwm4-4.8.1/src/mypixmap.c xfwm4-4.8.1.qubes/src/mypixmap.c
+--- xfwm4-4.8.1/src/mypixmap.c	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/mypixmap.c	2011-04-17 19:55:48.539431304 +0200
 @@ -43,6 +43,7 @@
  #include <gdk/gdk.h>
  #include <gdk/gdkx.h>
@@ -663,7 +666,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-
  #include <stdlib.h>
  #include <stdio.h>
  
-@@ -513,7 +514,7 @@ file_buffer (enum buf_op op, gpointer ha
+@@ -513,7 +514,7 @@
  
  /* This function does all the work. */
  static GdkPixbuf *
@@ -672,7 +675,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-
  {
      gchar pixel_str[32];
      const gchar *buffer;
-@@ -603,6 +604,18 @@ pixbuf_create_from_xpm (gpointer handle,
+@@ -603,6 +604,18 @@
              color->red = 0;
              color->green = 0;
              color->blue = 0;
@@ -680,8 +683,8 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-
 +            gdouble h, s, v, new_r, new_g, new_b;
 +            /* override color - for Qubes labels */
 +            gtk_rgb_to_hsv(
-+                    1.0*color->red/0xFFFF, 
-+                    1.0*color->green/0xFFFF, 
++                    1.0*color->red/0xFFFF,
++                    1.0*color->green/0xFFFF,
 +                    1.0*color->blue/0xFFFF,
 +                    &h, &s, &v);
 +            gtk_hsv_to_rgb(override_h, override_s, v, &new_r, &new_g, &new_b);
@@ -691,27 +694,27 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-
          }
  
          g_free (color_name);
-@@ -674,7 +687,8 @@ pixbuf_create_from_xpm (gpointer handle,
+@@ -674,7 +687,8 @@
  
  
  static GdkPixbuf *
 -xpm_image_load (const char *filename, xfwmColorSymbol *color_sym)
-+xpm_image_load (const char *filename, xfwmColorSymbol *color_sym, 
++xpm_image_load (const char *filename, xfwmColorSymbol *color_sym,
 +        gboolean override, gdouble override_h, gdouble override_s, gdouble override_v)
  {
      guchar buffer[1024];
      GdkPixbuf *pixbuf;
-@@ -698,7 +712,8 @@ xpm_image_load (const char *filename, xf
+@@ -698,7 +712,8 @@
      fseek (f, 0, SEEK_SET);
      memset (&h, 0, sizeof (h));
      h.infile = f;
 -    pixbuf = pixbuf_create_from_xpm (&h, color_sym);
-+    pixbuf = pixbuf_create_from_xpm (&h, color_sym, override, 
++    pixbuf = pixbuf_create_from_xpm (&h, color_sym, override,
 +            override_h, override_s, override_v);
      g_free (h.buffer);
      fclose (f);
  
-@@ -931,7 +946,7 @@ xfwmPixmapRenderGdkPixbuf (xfwmPixmap * 
+@@ -933,7 +948,7 @@
  }
  
  gboolean
@@ -720,13 +723,13 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-
  {
      gchar *filename;
      gchar *filexpm;
-@@ -952,7 +967,15 @@ xfwmPixmapLoad (ScreenInfo * screen_info
+@@ -954,7 +969,15 @@
      filexpm = g_strdup_printf ("%s.%s", file, "xpm");
      filename = g_build_filename (dir, filexpm, NULL);
      g_free (filexpm);
 -    pixbuf = xpm_image_load (filename, cs);
 +    if (qubesLabelId >= 0) {
-+        pixbuf = xpm_image_load (filename, cs, TRUE, 
++        pixbuf = xpm_image_load (filename, cs, TRUE,
 +                qubes_label_colors[qubesLabelId*3+0],
 +                qubes_label_colors[qubesLabelId*3+1],
 +                qubes_label_colors[qubesLabelId*3+2]
@@ -737,10 +740,11 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.c xfwm4-
      g_free (filename);
  
      /* Compose with other image formats, if any available. */
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.h xfwm4-4.6.1.qubes/src/mypixmap.h
---- xfwm4-4.6.1/src/mypixmap.h	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/mypixmap.h	2011-04-03 22:11:37.346427184 +0200
-@@ -61,7 +61,8 @@ gboolean                 xfwmPixmapLoad 
+Only in xfwm4-4.8.1.qubes/src: mypixmap.c.orig
+diff -ur xfwm4-4.8.1/src/mypixmap.h xfwm4-4.8.1.qubes/src/mypixmap.h
+--- xfwm4-4.8.1/src/mypixmap.h	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/mypixmap.h	2011-04-17 19:55:48.539431304 +0200
+@@ -61,7 +61,8 @@
                                                                   xfwmPixmap *,
                                                                   const gchar *,
                                                                   const gchar *,
@@ -750,10 +754,10 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/mypixmap.h xfwm4-
  void                     xfwmPixmapCreate                       (ScreenInfo *,
                                                                   xfwmPixmap *,
                                                                   gint,
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/screen.c xfwm4-4.6.1.qubes/src/screen.c
---- xfwm4-4.6.1/src/screen.c	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/screen.c	2011-04-03 22:12:33.306796258 +0200
-@@ -140,7 +140,7 @@ myScreenInit (DisplayInfo *display_info,
+diff -ur xfwm4-4.8.1/src/screen.c xfwm4-4.8.1.qubes/src/screen.c
+--- xfwm4-4.8.1/src/screen.c	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/screen.c	2011-04-17 19:55:48.539431304 +0200
+@@ -140,7 +140,7 @@
      GdkWindow *event_win;
      PangoLayout *layout;
      long desktop_visible;
@@ -762,7 +766,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/screen.c xfwm4-4.
  
      g_return_val_if_fail (display_info, NULL);
      g_return_val_if_fail (GDK_IS_SCREEN (gscr), NULL);
-@@ -289,27 +289,35 @@ myScreenInit (DisplayInfo *display_info,
+@@ -290,27 +290,35 @@
  
      for (i = 0; i < SIDE_COUNT; i++)
      {
@@ -806,11 +810,12 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/screen.c xfwm4-4.
 +        }
      }
  
-     myScreenInvalidateMonitorCache (screen_info);
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/screen.h xfwm4-4.6.1.qubes/src/screen.h
---- xfwm4-4.6.1/src/screen.h	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/screen.h	2011-04-03 19:17:18.376718965 +0200
-@@ -81,11 +81,12 @@ struct _ScreenInfo
+     screen_info->monitors_index = NULL;
+Only in xfwm4-4.8.1.qubes/src: screen.c.orig
+diff -ur xfwm4-4.8.1/src/screen.h xfwm4-4.8.1.qubes/src/screen.h
+--- xfwm4-4.8.1/src/screen.h	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/screen.h	2011-04-17 19:55:48.539431304 +0200
+@@ -81,11 +81,12 @@
      /* Theme pixmaps and other params, per screen */
      XfwmColor title_colors[2];
      XfwmColor title_shadow_colors[2];
@@ -828,19 +833,19 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/screen.h xfwm4-4.
  
      /* Per screen graphic contexts */
      GC box_gc;
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/settings.c xfwm4-4.6.1.qubes/src/settings.c
---- xfwm4-4.6.1/src/settings.c	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/settings.c	2011-04-03 22:54:29.878298427 +0200
-@@ -400,7 +400,7 @@ loadTheme (ScreenInfo *screen_info, Sett
+diff -ur xfwm4-4.8.1/src/settings.c xfwm4-4.8.1.qubes/src/settings.c
+--- xfwm4-4.8.1/src/settings.c	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/settings.c	2011-04-17 19:55:48.539431304 +0200
+@@ -400,7 +400,7 @@
+     gchar *theme;
      const gchar *font;
      PangoFontDescription *desc;
-     PangoContext *context;
 -    guint i, j;
 +    guint i, j, k;
  
      widget = myScreenGetGtkWidget (screen_info);
      display_info = screen_info->display_info;
-@@ -481,41 +481,49 @@ loadTheme (ScreenInfo *screen_info, Sett
+@@ -492,41 +492,49 @@
  
      for (i = 0; i < SIDE_TOP; i++) /* Keep SIDE_TOP for later */
      {
@@ -908,7 +913,7 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/settings.c xfwm4-
      }
  
      screen_info->box_gc = createGC (screen_info, "#FFFFFF", GXxor, NULL, 2, TRUE);
-@@ -871,33 +879,41 @@ loadSettings (ScreenInfo *screen_info)
+@@ -891,33 +899,41 @@
  static void
  unloadTheme (ScreenInfo *screen_info)
  {
@@ -960,10 +965,11 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/settings.c xfwm4-
      }
      if (screen_info->box_gc != None)
      {
-diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/settings.h xfwm4-4.6.1.qubes/src/settings.h
---- xfwm4-4.6.1/src/settings.h	2009-04-15 09:58:59.000000000 +0200
-+++ xfwm4-4.6.1.qubes/src/settings.h	2011-04-03 22:47:17.993515708 +0200
-@@ -144,6 +144,33 @@ enum
+Only in xfwm4-4.8.1.qubes/src: settings.c.orig
+diff -ur xfwm4-4.8.1/src/settings.h xfwm4-4.8.1.qubes/src/settings.h
+--- xfwm4-4.8.1/src/settings.h	2011-01-30 17:51:01.000000000 +0100
++++ xfwm4-4.8.1.qubes/src/settings.h	2011-04-17 19:55:48.539431304 +0200
+@@ -146,6 +146,33 @@
      PLACE_CENTER
  };
  
@@ -997,3 +1003,4 @@ diff -x .deps -x 'Makefile*' -x 'config*' -rpu xfwm4-4.6.1/src/settings.h xfwm4-
  struct _XfwmColor
  {
      GdkColor col;
+Only in xfwm4-4.8.1.qubes/src: settings.h.orig
