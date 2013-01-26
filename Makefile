@@ -2,11 +2,13 @@ RPMS_DIR=rpm/
 help:
 	@echo "make rpms        -- generate binary rpm packages"
 
+DIST_DOM0 ?= fc13
+
 RPM_DEFINES := --define "_rpmdir $(RPMS_DIR)" \
 			   --define "_sourcedir $(PWD)/xfwm4"
 SPECFILE := xfwm4/xfwm4.spec
 
-VER_REL := $(shell rpm $(RPM_DEFINES) -q --qf "%{VERSION}-%{RELEASE}\n" --specfile $(SPECFILE)| head -1|sed -e 's/fc../fc13/')
+VER_REL := $(shell rpm $(RPM_DEFINES) -q --qf "%{VERSION}-%{RELEASE}\n" --specfile $(SPECFILE)| head -1|sed -e 's/fc../$(DIST_DOM0)/')
 
 rpms: rpms-dom0
 
