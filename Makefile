@@ -1,4 +1,4 @@
-SUBDIRS := xfwm4
+SUBDIRS := xfwm4 garcon
 
 help:
 	@echo "make rpms        -- generate binary rpm packages"
