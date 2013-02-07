@@ -6,3 +6,4 @@ xfconf-devel
 intltool
 desktop-file-utils
 libxfce4ui-devel
+gtk-doc
