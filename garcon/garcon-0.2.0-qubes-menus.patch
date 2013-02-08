@@ -24,7 +24,7 @@
 -        <Filename>exo-web-browser.desktop</Filename>
          <Separator/>
 -        <Menuname>Settings</Menuname>
-+        <Menuname>System Tools</Menuname>
++        <Menuname>System</Menuname>
          <Separator/>
          <Merge type="all"/>
          <Separator/>
@@ -33,8 +33,9 @@
  
      <Menu>
 -        <Name>Settings</Name>
-+        <Name>System Tools</Name>
-         <Directory>xfce-settings.directory</Directory>
++        <Name>System</Name>
+-        <Directory>xfce-settings.directory</Directory>
++        <Directory>xfce-system.directory</Directory>
 +        <OnlyUnallocated/>
          <Include>
 -            <Category>Settings</Category>
