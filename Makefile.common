@@ -35,11 +35,11 @@ rpms-vm:
 
 rpms-dom0:
 	rpmbuild $(RPM_DEFINES) -bb $(SPECFILE)
-	rpm --addsign $(RPMS_DIR)/x86_64/$(NAME)*$(VER_REL)*.rpm
+	rpm --addsign $(RPMDIR)/x86_64/$(NAME)*$(VER_REL)*.rpm
 
 srpms:
 	rpmbuild $(RPM_DEFINES) -bs $(SPECFILE)
-	rpm --addsign $(SRPMS_DIR)/$(NAME)*$(VER_REL)*.rpm
+	rpm --addsign $(SRCRPMDIR)/$(NAME)*$(VER_REL)*.rpm
 
 update-repo-current:
 	ln -f $(RPMDIR)/x86_64/$(NAME)*$(VER_REL)*.rpm ../../yum/current-release/current/dom0/rpm/
