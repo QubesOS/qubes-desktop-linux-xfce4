@@ -8,9 +8,15 @@
      <DefaultAppDirs/>
      <DefaultDirectoryDirs/>
      <DefaultMergeDirs/>
-@@ -12,15 +13,14 @@
+@@ -11,16 +12,20 @@
+     <Include>
          <Category>X-Xfce-Toplevel</Category>
      </Include>
++    <Exclude>
++        <Filename>exo-file-manager.desktop</Filename>
++        <Filename>exo-mail-reader.desktop</Filename>
++        <Filename>exo-web-browser.desktop</Filename>
++    </Exclude>
  
 +    <!-- Add stock tarball installs to menus -->
 +    <AppDir>/usr/local/share/applications</AppDir>
@@ -28,7 +34,7 @@
          <Separator/>
          <Merge type="all"/>
          <Separator/>
-@@ -29,10 +29,11 @@
+@@ -29,11 +29,15 @@
      </Layout>
  
      <Menu>
@@ -41,8 +47,12 @@
 -            <Category>Settings</Category>
 +            <All/>
          </Include>
++        <Exclude>
++            <Category>X-Xfce-Toplevel</Category>
++        </Exclude>
  
          <Layout>
+             <Filename>xfce-settings-manager.desktop</Filename>
 @@ -40,124 +41,8 @@
              <Separator/>
              <Merge type="all"/>
