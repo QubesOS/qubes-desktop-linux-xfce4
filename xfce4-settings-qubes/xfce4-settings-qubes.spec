@@ -1,4 +1,4 @@
-Name:		xfce4-panel-qubes
+Name:		xfce4-settings-qubes
 Version:	1.0
 Release:	1%{?dist}
 Summary:	Default Xfce4 panel settings for Qubes

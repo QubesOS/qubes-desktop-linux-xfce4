@@ -1,4 +1,4 @@
-SUBDIRS := xfwm4 garcon xfce4-panel-qubes
+SUBDIRS := xfwm4 garcon xfce4-settings-qubes
 
 help:
 	@echo "make rpms        -- generate binary rpm packages"
