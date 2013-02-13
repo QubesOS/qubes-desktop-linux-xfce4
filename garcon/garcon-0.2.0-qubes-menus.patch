@@ -41,7 +41,7 @@
 -        <Name>Settings</Name>
 +        <Name>System</Name>
 -        <Directory>xfce-settings.directory</Directory>
-+        <Directory>xfce-system.directory</Directory>
++        <Directory>qubes-System-Tools.directory</Directory>
 +        <OnlyUnallocated/>
          <Include>
 -            <Category>Settings</Category>
