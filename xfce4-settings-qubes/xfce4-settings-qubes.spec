@@ -23,10 +23,10 @@ Requires(post):	xfce4-panel
 
 
 %install
-install -D %{SOURCE0} %{buildroot}%{_sysconfdir}/xdg/xfce4/panel/qubes-default.xml
-install -D %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/inhibit-systemd-power-handling.desktop
-install -D %{SOURCE2} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/qubes-xsettings.xml
-install -D %{SOURCE3} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+install -m 644 -D %{SOURCE0} %{buildroot}%{_sysconfdir}/xdg/xfce4/panel/qubes-default.xml
+install -m 644 -D %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/inhibit-systemd-power-handling.desktop
+install -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/qubes-xsettings.xml
+install -m 644 -D %{SOURCE3} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
 
 %post
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/panel/qubes-default.xml"
