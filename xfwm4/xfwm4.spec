@@ -1,52 +1,67 @@
-Summary: Next generation window manager for Xfce
-Name: xfwm4
-Version: 4.6.1
-Release: 8%{?dist}
-Epoch: 1000
-License: GPLv2+
-URL: http://www.xfce.org/
-Source0: http://www.xfce.org/archive/xfce-%{version}/src/xfwm4-%{version}.tar.bz2
-Patch0: xfwm4-4.6.1-nodoka.patch
-Patch1: xfwm4-4.6.1-focus.patch
-Patch2: xfwm4-4.6.1-multi-monitor.patch
-# Upstream bug: http://bugzilla.xfce.org/show_bug.cgi?id=6231
-Patch3: xfwm4-4.6.1-dsofix.patch
-Patch4: xfwm4-4.6.1-qubes-decoration.patch
-Patch5: xfwm4-4.6.1-cleanup-idle-queue.patch
+%global xfceversion 4.10
 
-Group: User Interface/Desktops
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Name:           xfwm4
+Version:        4.10.0
+Release:        6%{?dist}
+Epoch:          1000
+Summary:        Next generation window manager for Xfce
 
-Requires: libxfcegui4 >= %{version}
-Requires: xfce4-doc
-BuildRequires: libxfcegui4-devel >= %{version}
-BuildRequires: libXext-devel
-BuildRequires: gettext intltool
-BuildRequires: libXcomposite-devel
-BuildRequires: libXdamage-devel
-BuildRequires: startup-notification-devel
-BuildRequires: libglade2-devel
-BuildRequires: libwnck-devel
-BuildRequires: xfconf-devel
-BuildRequires: desktop-file-utils
+Group:          User Interface/Desktops
+License:        GPLv2+
+URL:            http://www.xfce.org/
+#VCS git:git://git.xfce.org/xfce/xfwm4
+Source0:        http://archive.xfce.org/src/xfce/%{name}/%{xfceversion}/%{name}-%{version}.tar.bz2
+# Fix window grabbing with gtk3 windows (#845272=
+# Upstream bug: https://bugzilla.xfce.org/show_bug.cgi?id=8949
+# Upstream fix: http://git.xfce.org/xfce/xfwm4/commit/?id=0b39bbe0
+Patch0:         xfwm4-4.10.0-gtk3-windows.patch
+# Fix potential crash in xfce4-settings-manager through wrong xfwm4 settings
+# Upstream bug: https://bugzilla.xfce.org/show_bug.cgi?id=9108
+# Upstream fix: http://git.xfce.org/xfce/xfwm4/commit/?id=f09ea920
+Patch1:         xfwm4-4.10.0-wrong-title-alignment.patch
+# Delete active workspace instead of last workspace
+# Upstream bug: https://bugzilla.xfce.org/show_bug.cgi?id=8827
+# Upstream fix: http://git.xfce.org/xfce/xfwm4/commit/?id=0003144f
+Patch2:         xfwm4-4.10.0-workspace-deletion.patch
+## Downstream patches:
+# Fix desktop categories
+Patch10:        xfwm4-4.9.0-desktop-fix.patch
+
+Patch100:	xfwm4-4.10.0-qubes-decoration.patch
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:  libxfce4ui-devel >= %{xfceversion}
+BuildRequires:  libXext-devel
+BuildRequires:  gettext 
+BuildRequires:  intltool
+BuildRequires:  libXcomposite-devel
+BuildRequires:  libXdamage-devel
+BuildRequires:  startup-notification-devel >= 0.5
+BuildRequires:  libglade2-devel
+BuildRequires:  libwnck-devel >= 2.22
+BuildRequires:  xfconf-devel >= %{xfceversion}
+BuildRequires:  desktop-file-utils
+Provides:       firstboot(windowmanager) = xfwm4
 
 %description
 xfwm4 is a window manager compatible with GNOME, GNOME2, KDE2, KDE3 and Xfce.
 
 %prep
 %setup -q
-# use Nodoka Theme
-%patch0 -p1 -b .nodoka
-%patch1 -p1 -b .focus
-%patch2 -p1 -b .multiwindow
-%patch3 -p1 -b .dsofix
-%patch4 -p1 -b .qubes-decoration
-%patch5 -p1 -b .cleanup-idle-queue
+%patch0 -p1 -b .gtk3
+%patch1 -p1 -b .title-alignment
+%patch2 -p1 -b .workspace-deletion
+%patch10 -p1 -b .categories
+
+%patch100 -p1 -b .qubes
+
 
 %build
 %configure  --disable-static
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} V=1
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -55,23 +70,28 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
 %find_lang %{name}
 
 for file in $RPM_BUILD_ROOT/%{_datadir}/applications/*.desktop; do
-  desktop-file-validate $file
+    desktop-file-validate $file
 done
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+
 %post
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
-  %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
+touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+
 
 %postun
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
-  %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+if [ $1 -eq 0 ] ; then
+    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
+
+
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -80,15 +100,90 @@ fi
 %{_bindir}/xfwm4-settings
 %{_bindir}/xfwm4-tweaks-settings
 %{_bindir}/xfwm4-workspace-settings
-%{_datadir}/applications/*
+%{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/*/*
-%doc %{_datadir}/xfce4/doc/*/images/*
-%doc %{_datadir}/xfce4/doc/*/*.html
 %{_datadir}/xfwm4
 %{_datadir}/themes/*
-%{_libexecdir}/xfce4/xfwm4
+%dir %{_libdir}/xfce4/xfwm4/
+%{_libdir}/xfce4/xfwm4/helper-dialog
+
 
 %changelog
+* Sun Oct 07 2012 Christoph Wickert <cwickert@fedoraproject.org> - 4.10.0-5
+- Delete active workspace instead of last workspace (bugzilla.xfce.org #8827)
+
+* Sat Oct 06 2012 Christoph Wickert <cwickert@fedoraproject.org> - 4.10.0-4
+- Fix potential crash in xfce4-settings-manager (bugzilla.xfce.org #9108)
+
+* Sat Aug 11 2012 Kevin Fenzi <kevin@scrye.com> - 4.10.0-3
+- Add patch to fix grabbing on gtk3 apps. Fixes bug #845272
+
+* Sun Jul 22 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.10.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Sun Apr 29 2012 Christoph Wickert <cwickert@fedoraproject.org> - 4.10.0-1
+- Update to 4.10.0 final
+- Drop Nodoka patch
+- Make build verbose
+- Add VCS key
+
+* Sat Apr 14 2012 Kevin Fenzi <kevin@scrye.com> - 4.9.1-1
+- Update to 4.9.1 (Xfce 4.10pre1)
+
+* Mon Apr 02 2012 Kevin Fenzi <kevin@scrye.com> - 4.9.0-1
+- Update to 4.9.0
+
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.8.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Mon Dec 19 2011 Kevin Fenzi <kevin@scrye.com> - 4.8.3-1
+- Update to 4.8.3
+
+* Tue Nov 01 2011 Christoph Wickert <cwickert@fedoraproject.org> - 4.8.2-1
+- Update to 4.8.2
+- Remove all upstreamed patches
+- Apply Nodoka theme only in Fedora
+
+* Tue Nov 01 2011 Christoph Wickert <cwickert@fedoraproject.org> - 4.8.1-5
+- Provide window manager for firstboot (#750397)
+
+* Sat Oct 15 2011 Christoph Wickert <cwickert@fedoraproject.org> - 4.8.1-4
+- Another patch to fix resizing (#670173)
+
+* Mon Sep 19 2011 Christoph Wickert <cwickert@fedoraproject.org> - 4.8.1-3
+- Be less strict on size changes (#670173)
+
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 4.8.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Sun Jan 30 2011 Kevin Fenzi <kevin@tummy.com> - 4.8.1-1
+- Update to 4.8.1
+
+* Sun Jan 16 2011 Kevin Fenzi <kevin@tummy.com> - 4.8.0-1
+- Update to 4.8.0
+
+* Sun Jan 02 2011 Christoph Wickert <cwickert@fedoraproject.org> - 4.7.4-1
+- Update to 4.7.4
+- Update icon-cache scriptlets
+
+* Sun Dec 05 2010 Christoph Wickert <cwickert@fedoraproject.org> - 4.7.3-1
+- Update to 4.7.3
+
+* Mon Nov 29 2010 Christoph Wickert <cwickert@fedoraproject.org> - 4.7.2-1
+- Update to 4.7.2
+
+* Mon Nov 08 2010 Christoph Wickert <cwickert@fedoraproject.org> - 4.7.1-1
+- Update to 4.7.1
+
+* Wed Sep 29 2010 Jesse Keating <jkeating@fedoraproject.org> - 4.6.2-3
+- Rebuilt for gcc bug 634757
+
+* Sun Sep 19 2010 Christoph Wickert <cwickert@fedoraproject.org> - 4.6.2-2
+- Provide firstboot(windowmanager)
+
+* Fri May 21 2010 Kevin Fenzi <kevin@tummy.com> - 4.6.2-1
+- Update to 4.6.2
+
 * Sat Feb 13 2010 Kevin Fenzi <kevin@tummy.com> - 4.6.1-7
 - Add patch to fix DSO linking issue. Fixes bug #564730
 
