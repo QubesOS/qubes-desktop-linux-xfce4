@@ -1,3 +1,6 @@
+%if 0%{?qubes_builder}
+%define _sourcedir %(pwd)/xfwm4
+%endif
 %global xfceversion 4.10
 
 Name:           xfwm4

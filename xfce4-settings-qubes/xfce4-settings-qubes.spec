@@ -1,3 +1,7 @@
+%if 0%{?qubes_builder}
+%define _sourcedir %(pwd)/xfce4-settings-qubes
+%endif
+
 Name:		xfce4-settings-qubes
 Version:	1.2
 Release:	1%{?dist}

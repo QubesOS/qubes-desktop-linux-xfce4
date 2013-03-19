@@ -1,5 +1,8 @@
 # Review at https://bugzilla.redhat.com/show_bug.cgi?id=554603
 
+%if 0%{?qubes_builder}
+%define _sourcedir %(pwd)/garcon
+%endif
 %global minorversion 0.2
 
 Name:           garcon
