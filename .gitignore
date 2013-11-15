@@ -1,2 +1,4 @@
 rpm/
 srpm/
+*/*.tar.gz
+*/*.tar.bz2
