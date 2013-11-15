@@ -4,8 +4,8 @@
 %global xfceversion 4.10
 
 Name:           xfwm4
-Version:        4.10.0
-Release:        6%{?dist}
+Version:        4.10.1
+Release:        1%{?dist}
 Epoch:          1000
 Summary:        Next generation window manager for Xfce
 
@@ -14,18 +14,6 @@ License:        GPLv2+
 URL:            http://www.xfce.org/
 #VCS git:git://git.xfce.org/xfce/xfwm4
 Source0:        http://archive.xfce.org/src/xfce/%{name}/%{xfceversion}/%{name}-%{version}.tar.bz2
-# Fix window grabbing with gtk3 windows (#845272=
-# Upstream bug: https://bugzilla.xfce.org/show_bug.cgi?id=8949
-# Upstream fix: http://git.xfce.org/xfce/xfwm4/commit/?id=0b39bbe0
-Patch0:         xfwm4-4.10.0-gtk3-windows.patch
-# Fix potential crash in xfce4-settings-manager through wrong xfwm4 settings
-# Upstream bug: https://bugzilla.xfce.org/show_bug.cgi?id=9108
-# Upstream fix: http://git.xfce.org/xfce/xfwm4/commit/?id=f09ea920
-Patch1:         xfwm4-4.10.0-wrong-title-alignment.patch
-# Delete active workspace instead of last workspace
-# Upstream bug: https://bugzilla.xfce.org/show_bug.cgi?id=8827
-# Upstream fix: http://git.xfce.org/xfce/xfwm4/commit/?id=0003144f
-Patch2:         xfwm4-4.10.0-workspace-deletion.patch
 ## Downstream patches:
 # Fix desktop categories
 Patch10:        xfwm4-4.9.0-desktop-fix.patch
@@ -54,9 +42,6 @@ xfwm4 is a window manager compatible with GNOME, GNOME2, KDE2, KDE3 and Xfce.
 
 %prep
 %setup -q
-%patch0 -p1 -b .gtk3
-%patch1 -p1 -b .title-alignment
-%patch2 -p1 -b .workspace-deletion
 %patch10 -p1 -b .categories
 
 %patch20 -p1 -b .cleanup-idle
