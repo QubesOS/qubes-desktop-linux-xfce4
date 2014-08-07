@@ -17,6 +17,7 @@ Source3:	xfce4-power-manager.xml
 Source4:	xfwm4.xml
 Source5:	xfce4-desktop.xml
 
+Requires:	qubes-artwork
 Requires:	xfce4-panel
 Requires(post):	xfce4-panel
 
