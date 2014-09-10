@@ -51,6 +51,22 @@ cp -f "%{1}" "$origfile"\
 %triggerin -- xfce4-settings
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes
 
+%triggerin -- xscreensaver-base
+
+conffile=/etc/xscreensaver/XScreenSaver.ad.tail
+
+if ! grep -q "! Qubes options begin" $conffile; then
+    ( echo -e "! Qubes options begin - do not edit\n! Qubes options end"; cat $conffile) > $conffile.tmp
+    mv $conffile.tmp $conffile
+fi
+
+sed -e '/! Qubes options begin/,/! Qubes options end/c \
+! Qubes options begin - do not edit\
+*newLoginCommand:\
+! Qubes options end' -i $conffile
+
+update-xscreensaver-hacks
+
 %postun
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes"
