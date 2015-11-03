@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Let the Xfce handle power/sleep buttons
 Comment=Inhibit SystemD from handling power/sleep buttons
-Exec=systemd-inhibit --what=handle-power-key:handle-suspend-key:handle-hibernate-key:handle-lid-switch --why="Let Xfce Power Manager do it" --mode=block sleep 365d
+Exec=systemd-inhibit --what=handle-power-key:handle-suspend-key:handle-hibernate-key:handle-lid-switch --why="Let Xfce Power Manager do it" --mode=block sleep inf
 Terminal=false
 Type=Application
 OnlyShowIn=XFCE;
