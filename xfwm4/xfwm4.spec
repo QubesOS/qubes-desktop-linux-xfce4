@@ -1,10 +1,10 @@
 %if 0%{?qubes_builder}
 %define _sourcedir %(pwd)/xfwm4
 %endif
-%global xfceversion 4.10
+%global xfceversion 4.12
 
 Name:           xfwm4
-Version:        4.10.1
+Version:        4.12.3
 Release:        1%{?dist}
 Epoch:          1000
 Summary:        Next generation window manager for Xfce
@@ -20,7 +20,7 @@ Patch10:        xfwm4-4.9.0-desktop-fix.patch
 
 Patch20:	xfwm4-4.6.1-cleanup-idle-queue.patch
 
-Patch100:	xfwm4-4.10.0-qubes-decoration.patch
+Patch100:	xfwm4-4.12.3-qubes-decoration.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
