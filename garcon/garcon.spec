@@ -3,11 +3,11 @@
 %if 0%{?qubes_builder}
 %define _sourcedir %(pwd)/garcon
 %endif
-%global minorversion 0.2
+%global minorversion 0.4
 
 Name:           garcon
 Epoch:		1000
-Version:        0.2.0
+Version:        0.4.0
 Release:        3%{?dist}
 Summary:        Implementation of the freedesktop.org menu specification
 
@@ -17,18 +17,19 @@ Group:          System Environment/Libraries
 License:        LGPLv2+ and GFDL
 URL:            http://xfce.org/
 #VCS git:git://git.xfce.org/xfce/garcon
-Source0:        http://archive.xfce.org/src/libs/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
+Source0:        http://archive.xfce.org/src/xfce/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
 Source1:        xfce-documentation.directory
 Patch0:         garcon-0.2.0-qubes-menus.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  pkgconfig(glib-2.0) >= 2.14.0
-BuildRequires:  pkgconfig(libxfce4util-1.0) >= 4.8.0
+BuildRequires:  pkgconfig(glib-2.0) >= 2.30.0
+BuildRequires:  pkgconfig(libxfce4util-1.0) >= 4.10.0
+BuildRequires:	pkgconfig(libxfce4ui-1) >= 4.10.0
 BuildRequires:  gtk-doc
 BuildRequires:  gettext
 BuildRequires:  intltool
 
-Obsoletes:      libxfce4menu < 4.6.2
+Obsoletes:      libxfce4menu < 4.6.3
 # because of %%{_datadir}/desktop-directories/xfce-*
 Conflicts:      xfdesktop <= 4.6.2
 
@@ -65,6 +66,10 @@ make %{?_smp_mflags} V=1
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
+
+# fix permissions for libraries
+chmod 755 $RPM_BUILD_ROOT/%{_libdir}/*.so
+
 find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %find_lang %{name}
 install -pm 644 %{SOURCE1} %{buildroot}%{_datadir}/desktop-directories
@@ -100,6 +105,33 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Sat Feb 28 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.4.0-2
+- Fix permissions for installed libraries
+
+* Sat Feb 28 2015 Mukundan Ragavan <nonamedotc@fedoraproject.org> - 0.4.0-1
+- Update to version 0.4.0
+
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Wed Aug 28 2013 Kevin Fenzi <kevin@scrye.com> 0.2.1-3
+- Fix obsoletes. Fixes bug #1002131
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Sun May 05 2013 Kevin Fenzi <kevin@scrye.com> 0.2.1-1
+- Update to 0.2.1
+
+* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
