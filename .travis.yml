@@ -1,0 +1,6 @@
+sudo: required
+dist: trusty
+install: git clone https://github.com/marmarek/qubes-builder ~/qubes-builder
+script: ~/qubes-builder/scripts/travis-build
+env:
+ - DIST_DOM0=fc23 USE_QUBES_REPO_VERSION=3.1
