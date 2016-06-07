@@ -3,7 +3,7 @@
 %endif
 
 Name:		xfce4-settings-qubes
-Version:	1.5
+Version:	3.2.0
 Release:	1%{?dist}
 Summary:	Default Xfce4 panel settings for Qubes
 
