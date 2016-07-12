@@ -11,7 +11,6 @@ Group:		User Interface/Desktops
 License:	GPLv2+
 URL:		http://www.qubes-os.org/
 Source0:	xfce4-panel-qubes-default.xml
-Source1:	inhibit-systemd-power-handling.desktop
 Source2:	xsettings.xml
 Source3:	xfwm4.xml
 Source4:	xfce4-desktop.xml
@@ -30,7 +29,6 @@ Requires(post):	xfce4-panel
 
 %install
 install -m 644 -D %{SOURCE0} %{buildroot}%{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes
-install -m 644 -D %{SOURCE1} %{buildroot}%{_sysconfdir}/xdg/autostart/inhibit-systemd-power-handling.desktop
 install -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes
 install -m 644 -D %{SOURCE3} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
 install -m 644 -D %{SOURCE4} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
@@ -78,7 +76,6 @@ if [ $1 -lt 1 ]; then
 fi
 
 %files
-%{_sysconfdir}/xdg/autostart/inhibit-systemd-power-handling.desktop
 %{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
