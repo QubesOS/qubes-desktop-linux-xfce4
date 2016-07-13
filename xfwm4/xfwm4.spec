@@ -22,6 +22,7 @@ Patch20:	xfwm4-4.6.1-cleanup-idle-queue.patch
 
 Patch100:	xfwm4-4.12.3-qubes-decoration.patch
 Patch101:	xfwm4-4.12.3-qubes-decoration-custom-colors.patch
+Patch102:	xfwm4-4.12.3-qubes-decoration-black-hack.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -49,6 +50,7 @@ xfwm4 is a window manager compatible with GNOME, GNOME2, KDE2, KDE3 and Xfce.
 
 %patch100 -p1 -b .qubes
 %patch101 -p1 -b .qubes-custom-color
+%patch102 -p1 -b .qubes-black-hack
 
 
 %build
