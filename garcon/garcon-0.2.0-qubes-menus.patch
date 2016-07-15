@@ -42,13 +42,13 @@
 +        <Name>System</Name>
 -        <Directory>xfce-settings.directory</Directory>
 +        <Directory>qubes-System-Tools.directory</Directory>
-+        <OnlyUnallocated/>
          <Include>
 -            <Category>Settings</Category>
 +            <All/>
          </Include>
 +        <Exclude>
 +            <Category>X-Xfce-Toplevel</Category>
++            <Category>X-Qubes-VM</Category>
 +        </Exclude>
  
          <Layout>
