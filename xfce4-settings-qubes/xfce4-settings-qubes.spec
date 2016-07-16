@@ -60,6 +60,7 @@ fi
 sed -e '/! Qubes options begin/,/! Qubes options end/c \
 ! Qubes options begin - do not edit\
 *newLoginCommand:\
+*fade: False\
 ! Qubes options end' -i $conffile
 
 update-xscreensaver-hacks
