@@ -34,4 +34,7 @@
   <property name="splash" type="empty">
     <property name="Engine" type="string" value=""/>
   </property>
+  <property name="shutdown" type="empty">
+    <property name="LockScreen" type="bool" value="true"/>
+  </property>
 </channel>
