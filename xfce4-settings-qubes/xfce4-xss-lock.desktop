@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Handle logind session lock
+Comment=Launch xflock4 on systemd-logind request
+Exec=xss-lock xflock4
+Terminal=false
+Type=Application
+OnlyShowIn=XFCE;
+StartupNotify=false

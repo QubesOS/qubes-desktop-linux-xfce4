@@ -16,9 +16,11 @@ Source3:	xfwm4.xml
 Source4:	xfce4-desktop.xml
 Source5:	xfce4-session.xml
 Source6:	xfce4-power-manager.xml
+Source7:	xfce4-xss-lock.desktop
 
 Requires:	qubes-artwork
 Requires:	xfce4-panel
+Requires:	xss-lock
 Requires(post):	xfce4-panel
 
 %description
@@ -36,6 +38,7 @@ install -m 644 -D %{SOURCE3} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-pe
 install -m 644 -D %{SOURCE4} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 install -m 644 -D %{SOURCE5} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
 install -m 644 -D %{SOURCE6} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
+install -m 644 -D %{SOURCE7} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 
 %define settings_replace() \
 origfile="`echo %{1} | sed 's/\.qubes$//'`"\
@@ -95,7 +98,7 @@ fi
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
-
+%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 
 %changelog
 
