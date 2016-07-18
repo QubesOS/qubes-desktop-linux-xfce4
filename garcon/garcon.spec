@@ -8,7 +8,7 @@
 Name:           garcon
 Epoch:		1000
 Version:        0.4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Implementation of the freedesktop.org menu specification
 
 Group:          System Environment/Libraries
