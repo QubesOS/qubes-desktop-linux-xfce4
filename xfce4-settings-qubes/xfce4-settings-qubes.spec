@@ -41,12 +41,13 @@ install -m 644 -D %{SOURCE6} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-pe
 install -m 644 -D %{SOURCE7} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 
 %define settings_replace() \
-origfile="`echo %{1} | sed 's/\.qubes$//'`"\
-backupfile="`echo %{1} | sed s/\.qubes$/\.xfce4/`"\
-if [ -r "$origfile" -a ! -r "$backupfile" ]; then\
-	mv -f "$origfile" "$backupfile"\
-fi\
-cp -f "%{1}" "$origfile"\
+qubesfile="%{1}" \
+origfile=${qubesfile%.qubes} \
+backupfile=${origfile}.xfce4 \
+if [ -r "$origfile" -a ! -r "$backupfile" ]; then \
+	mv -f "$origfile" "$backupfile" \
+fi \
+cp -f "$qubesfile" "$origfile" \
 %{nil}
 
 %triggerin -- xfce4-panel
@@ -85,8 +86,8 @@ REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes"
 if [ $1 -lt 1 ]; then
 	for file in ${REPLACEFILE}; do
-		origfile="`echo $file | sed 's/\.qubes$//'`"
-		backupfile="`echo $file | sed 's/\.qubes$/\.xfce4/'`"
+		origfile=${file%.qubes}
+		backupfile=${origfile}.xfce4
 		mv -f "$backupfile" "$origfile"
 	done
 fi
