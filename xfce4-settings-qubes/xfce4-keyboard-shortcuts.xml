@@ -20,17 +20,8 @@
       <property name="&lt;Control&gt;&lt;Alt&gt;L" type="string" value="xfce4-session-logout"/>
       <property name="Print" type="string" value="xfce4-screenshooter -f"/>
       <property name="&lt;Alt&gt;Print" type="string" value="xfce4-screenshooter -w"/>
-      <property name="XF86WWW" type="string" value="exo-open --launch WebBrowser"/>
-      <property name="XF86Mail" type="string" value="exo-open --launch MailReader"/>
-      <property name="XF86Calendar" type="string" value="orage"/>
-      <property name="XF86Memo" type="string" value="xfce4-notes"/>
       <property name="XF86Terminal" type="string" value="xfce4-terminal"/>
       <property name="XF86Explorer" type="string" value="Thunar"/>
-      <property name="XF86AudioMedia" type="string" value="pragha"/>
-      <property name="XF86AudioPlay" type="string" value="pragha --pause"/>
-      <property name="XF86AudioPrev" type="string" value="pragha --prev"/>
-      <property name="XF86AudioNext" type="string" value="pragha --next"/>
-      <property name="XF86Calculator" type="string" value="galculator"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
