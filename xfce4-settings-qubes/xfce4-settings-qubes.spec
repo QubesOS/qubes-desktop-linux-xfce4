@@ -16,7 +16,8 @@ Source3:	xfwm4.xml
 Source4:	xfce4-desktop.xml
 Source5:	xfce4-session.xml
 Source6:	xfce4-power-manager.xml
-Source7:	xfce4-xss-lock.desktop
+Source7:	xfce4-keyboard-shortcuts.xml
+Source8:	xfce4-xss-lock.desktop
 
 Requires:	qubes-artwork
 Requires:	xfce4-panel
@@ -38,7 +39,8 @@ install -m 644 -D %{SOURCE3} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-pe
 install -m 644 -D %{SOURCE4} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 install -m 644 -D %{SOURCE5} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
 install -m 644 -D %{SOURCE6} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
-install -m 644 -D %{SOURCE7} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
+install -m 644 -D %{SOURCE7} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
+install -m 644 -D %{SOURCE8} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 
 %define settings_replace() \
 qubesfile="%{1}" \
@@ -62,6 +64,9 @@ cp -f "$qubesfile" "$origfile" \
 %triggerin -- xfce4-power-manager
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
 
+%triggerin -- libxfce4ui
+%settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
+
 %triggerin -- xscreensaver-base
 
 conffile=/etc/xscreensaver/XScreenSaver.ad.tail
@@ -84,6 +89,7 @@ REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes"
+REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes"
 if [ $1 -lt 1 ]; then
 	for file in ${REPLACEFILE}; do
 		origfile=${file%.qubes}
@@ -99,6 +105,7 @@ fi
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
+%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 %{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 
 %changelog
