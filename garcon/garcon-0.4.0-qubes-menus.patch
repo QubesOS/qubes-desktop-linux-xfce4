@@ -1,6 +1,6 @@
 diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xfce/xfce-applications.menu
 --- garcon-0.4.0.orig/data/xfce/xfce-applications.menu	2015-02-20 15:29:49.000000000 -0500
-+++ garcon-0.4.0/data/xfce/xfce-applications.menu	2016-11-26 23:21:42.064443260 -0500
++++ garcon-0.4.0/data/xfce/xfce-applications.menu	2016-11-26 23:24:06.167443260 -0500
 @@ -4,6 +4,7 @@
  <Menu>
      <Name>Xfce</Name>
@@ -31,7 +31,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
 -        <Filename>exo-web-browser.desktop</Filename>
          <Separator/>
 -        <Menuname>Settings</Menuname>
-+        <Menuname>System</Menuname>
++        <Menuname>System Tools</Menuname>
          <Separator/>
          <Merge type="all"/>
          <Separator/>
@@ -41,7 +41,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
      <Menu>
 -        <Name>Settings</Name>
 -        <Directory>xfce-settings.directory</Directory>
-+        <Name>System</Name>
++        <Name>System Tools</Name>
 +        <Directory>qubes-System-Tools.directory</Directory>
          <Include>
 -            <Category>Settings</Category>
