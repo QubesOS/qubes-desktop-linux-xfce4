@@ -1,5 +1,6 @@
---- garcon-0.2.0.orig/data/xfce/xfce-applications.menu	2012-04-28 22:06:19.000000000 +0200
-+++ garcon-0.2.0/data/xfce/xfce-applications.menu	2013-02-06 12:54:55.416313724 +0100
+diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xfce/xfce-applications.menu
+--- garcon-0.4.0.orig/data/xfce/xfce-applications.menu	2015-02-20 15:29:49.000000000 -0500
++++ garcon-0.4.0/data/xfce/xfce-applications.menu	2016-11-26 23:21:42.064443260 -0500
 @@ -4,6 +4,7 @@
  <Menu>
      <Name>Xfce</Name>
@@ -17,10 +18,10 @@
 +        <Filename>exo-mail-reader.desktop</Filename>
 +        <Filename>exo-web-browser.desktop</Filename>
 +    </Exclude>
- 
++
 +    <!-- Add stock tarball installs to menus -->
 +    <AppDir>/usr/local/share/applications</AppDir>
-+
+ 
      <Layout>
          <Filename>xfce4-run.desktop</Filename>
 -        <Separator/>
@@ -34,13 +35,13 @@
          <Separator/>
          <Merge type="all"/>
          <Separator/>
-@@ -29,11 +29,15 @@
+@@ -29,135 +34,23 @@
      </Layout>
  
      <Menu>
 -        <Name>Settings</Name>
-+        <Name>System</Name>
 -        <Directory>xfce-settings.directory</Directory>
++        <Name>System</Name>
 +        <Directory>qubes-System-Tools.directory</Directory>
          <Include>
 -            <Category>Settings</Category>
@@ -53,7 +54,6 @@
  
          <Layout>
              <Filename>xfce-settings-manager.desktop</Filename>
-@@ -40,124 +41,8 @@
              <Separator/>
              <Merge type="all"/>
          </Layout>
