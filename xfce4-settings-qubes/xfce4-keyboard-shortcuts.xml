@@ -21,7 +21,6 @@
       <property name="Print" type="string" value="xfce4-screenshooter -f"/>
       <property name="&lt;Alt&gt;Print" type="string" value="xfce4-screenshooter -w"/>
       <property name="XF86Terminal" type="string" value="xfce4-terminal"/>
-      <property name="XF86Explorer" type="string" value="Thunar"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
