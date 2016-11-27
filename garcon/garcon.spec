@@ -19,7 +19,7 @@ URL:            http://xfce.org/
 #VCS git:git://git.xfce.org/xfce/garcon
 Source0:        http://archive.xfce.org/src/xfce/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
 Source1:        xfce-documentation.directory
-Patch0:         garcon-0.2.0-qubes-menus.patch
+Patch0:         garcon-0.4.0-qubes-menus.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  pkgconfig(glib-2.0) >= 2.30.0
