@@ -1,6 +1,6 @@
 diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xfce/xfce-applications.menu
 --- garcon-0.4.0.orig/data/xfce/xfce-applications.menu	2015-02-20 15:29:49.000000000 -0500
-+++ garcon-0.4.0/data/xfce/xfce-applications.menu	2016-11-26 23:29:45.703443260 -0500
++++ garcon-0.4.0/data/xfce/xfce-applications.menu	2016-12-18 11:22:53.680000000 -0500
 @@ -4,6 +4,7 @@
  <Menu>
      <Name>Xfce</Name>
@@ -9,7 +9,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
      <DefaultAppDirs/>
      <DefaultDirectoryDirs/>
      <DefaultMergeDirs/>
-@@ -11,16 +12,20 @@
+@@ -11,16 +12,21 @@
      <Include>
          <Category>X-Xfce-Toplevel</Category>
      </Include>
@@ -23,6 +23,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
 +    <AppDir>/usr/local/share/applications</AppDir>
  
      <Layout>
++        <Filename>qubes-manager.desktop</Filename>
          <Filename>xfce4-run.desktop</Filename>
 -        <Separator/>
          <Filename>exo-terminal-emulator.desktop</Filename>
@@ -35,7 +36,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
          <Separator/>
          <Merge type="all"/>
          <Separator/>
-@@ -29,135 +34,24 @@
+@@ -29,135 +35,24 @@
      </Layout>
  
      <Menu>
