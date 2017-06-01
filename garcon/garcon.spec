@@ -3,12 +3,12 @@
 %if 0%{?qubes_builder}
 %define _sourcedir %(pwd)/garcon
 %endif
-%global minorversion 0.4
+%global minorversion 0.5
 
 Name:           garcon
 Epoch:		1000
-Version:        0.4.0
-Release:        4%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        Implementation of the freedesktop.org menu specification
 
 Group:          System Environment/Libraries
@@ -17,14 +17,20 @@ Group:          System Environment/Libraries
 License:        LGPLv2+ and GFDL
 URL:            http://xfce.org/
 #VCS git:git://git.xfce.org/xfce/garcon
-Source0:        http://archive.xfce.org/src/xfce/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
+Source0:        http://archive.xfce.org/src/libs/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
 Source1:        xfce-documentation.directory
 Patch0:         garcon-0.4.0-qubes-menus.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  pkgconfig(glib-2.0) >= 2.30.0
 BuildRequires:  pkgconfig(libxfce4util-1.0) >= 4.10.0
 BuildRequires:	pkgconfig(libxfce4ui-1) >= 4.10.0
+BuildRequires:	pkgconfig(libxfce4ui-2) >= 4.11.1
+BuildRequires:	pkgconfig(gio-2.0) >= 2.30.0
+BuildRequires:	pkgconfig(gobject-2.0) >= 2.30.0
+BuildRequires:	pkgconfig(gthread-2.0) >= 2.30.0
+BuildRequires:	pkgconfig(gtk+-2.0) >= 2.24.0
+BuildRequires:	pkgconfig(gtk+-3.0) >= 3.14.0
+
 BuildRequires:  gtk-doc
 BuildRequires:  gettext
 BuildRequires:  intltool
@@ -84,10 +90,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun -p /sbin/ldconfig
 
-
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -105,6 +109,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc %{_datadir}/gtk-doc/
 
 %changelog
+* Fri Jul 29 2016 Kevin Fenzi <kevin@scrye.com> - 0.5.0-1
+- Update to 0.5.0. Fixes bug #1361565
+
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.4.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
