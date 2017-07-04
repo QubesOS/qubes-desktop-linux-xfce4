@@ -37,6 +37,7 @@ BuildRequires:  libglade2-devel
 BuildRequires:  libwnck-devel >= 2.22
 BuildRequires:  xfconf-devel >= %{xfceversion}
 BuildRequires:  desktop-file-utils
+Requires:	qubes-desktop-linux-common
 Provides:       firstboot(windowmanager) = xfwm4
 
 %description
