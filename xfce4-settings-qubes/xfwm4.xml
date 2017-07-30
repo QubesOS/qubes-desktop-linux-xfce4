@@ -2,6 +2,6 @@
 
 <channel name="xfwm" version="1.0">
   <property name="general" type="empty">
-    <property name="theme" type="string" value="Nodoka"/>
+    <property name="theme" type="string" value="Slick"/>
   </property>
 </channel>
