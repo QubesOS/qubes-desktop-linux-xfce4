@@ -17,7 +17,7 @@ Group:          System Environment/Libraries
 License:        LGPLv2+ and GFDL
 URL:            http://xfce.org/
 #VCS git:git://git.xfce.org/xfce/garcon
-Source0:        http://archive.xfce.org/src/libs/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
+Source0:        http://archive.xfce.org/src/xfce/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
 Source1:        xfce-documentation.directory
 Patch0:         garcon-0.4.0-qubes-menus.patch
 
