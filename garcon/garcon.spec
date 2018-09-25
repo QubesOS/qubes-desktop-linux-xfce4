@@ -3,11 +3,11 @@
 %if 0%{?qubes_builder}
 %define _sourcedir %(pwd)/garcon
 %endif
-%global minorversion 0.5
+%global minorversion 0.6
 
 Name:           garcon
 Epoch:		1000
-Version:        0.5.0
+Version:        0.6.1
 Release:        1%{?dist}
 Summary:        Implementation of the freedesktop.org menu specification
 
@@ -31,6 +31,7 @@ BuildRequires:	pkgconfig(gthread-2.0) >= 2.30.0
 BuildRequires:	pkgconfig(gtk+-2.0) >= 2.24.0
 BuildRequires:	pkgconfig(gtk+-3.0) >= 3.14.0
 
+BuildRequires:  gcc-c++
 BuildRequires:  gtk-doc
 BuildRequires:  gettext
 BuildRequires:  intltool
@@ -58,16 +59,13 @@ Obsoletes:      libxfce4menu-devel < 4.6.2
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
-
 %prep
 %setup -q
 %patch0 -p1 -b.redhat-menus
 
-
 %build
 %configure --disable-static --enable-gtk-doc
 make %{?_smp_mflags} V=1
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -80,28 +78,16 @@ find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
 %find_lang %{name}
 install -pm 644 %{SOURCE1} %{buildroot}%{_datadir}/desktop-directories
 
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
-%post -p /sbin/ldconfig
-
-
-%postun -p /sbin/ldconfig
-
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS README
 %config(noreplace) %{_sysconfdir}/xdg/menus/xfce-applications.menu
 %{_libdir}/*.so.*
 %{_datadir}/desktop-directories/*.directory
 
 %files devel
-%defattr(-,root,root,-)
 %doc HACKING STATUS TODO
 %{_includedir}/*
 %{_libdir}/*.so
