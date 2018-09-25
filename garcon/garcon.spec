@@ -20,6 +20,7 @@ URL:            http://xfce.org/
 Source0:        http://archive.xfce.org/src/xfce/%{name}/%{minorversion}/%{name}-%{version}.tar.bz2
 Source1:        xfce-documentation.directory
 Patch0:         garcon-0.4.0-qubes-menus.patch
+Patch1:         fix_large_icons.patch
 
 BuildRequires:  pkgconfig(glib-2.0) >= 2.30.0
 BuildRequires:  pkgconfig(libxfce4util-1.0) >= 4.10.0
@@ -62,6 +63,7 @@ developing applications that use %{name}.
 %prep
 %setup -q
 %patch0 -p1 -b.redhat-menus
+%patch1 -p1
 
 %build
 %configure --disable-static --enable-gtk-doc
