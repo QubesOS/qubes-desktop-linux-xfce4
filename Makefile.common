@@ -32,8 +32,12 @@ NAME := $(shell rpm $(RPM_DEFINES) -q --qf "%{NAME}\n" --specfile $(SPECFILE)| h
 URL := $(shell spectool $(RPM_DEFINES) --list-files --source 0 $(SPECFILE) 2> /dev/null| cut -d ' ' -f 2- )
 ifndef SRC_FILE
 ifdef URL
-	SRC_FILE := $(notdir $(URL))
+    SRC_FILE := $(notdir $(URL))
 endif
+endif
+
+ifdef DISTFILES_MIRROR
+    URL := $(DISTFILES_MIRROR)/$(SRC_FILE)
 endif
 
 get-sources: $(SRC_FILE)
