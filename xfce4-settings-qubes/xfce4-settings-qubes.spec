@@ -18,6 +18,8 @@ Source5:	xfce4-session.xml
 Source6:	xfce4-power-manager.xml
 Source7:	xfce4-keyboard-shortcuts.xml
 Source8:	xfce4-xss-lock.desktop
+Source9:	qubes-update-xfce-config.desktop
+Source10:	update-xfce-config
 
 Requires:	qubes-artwork
 Requires:	xfce4-panel
@@ -40,8 +42,10 @@ install -m 644 -D %{SOURCE4} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-pe
 install -m 644 -D %{SOURCE5} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
 install -m 644 -D %{SOURCE6} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
 install -m 644 -D %{SOURCE7} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
-install -m 644 -D %{SOURCE8} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 ln -s ../../panel/default.xml %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+install -m 644 -D %{SOURCE8} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
+install -m 644 -D %{SOURCE9} %{buildroot}%{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
+install -m 755 -D %{SOURCE10} %{buildroot}/usr/lib/qubes/update-xfce-config
 
 %define settings_replace() \
 qubesfile="%{1}" \
@@ -109,6 +113,8 @@ fi
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 %{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
+%{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
+/usr/lib/qubes/update-xfce-config
 
 %changelog
 

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+set -e
+
+UPDATE_CONFIG_DONE_FILE="$HOME/.config/qubes-xfce-config-update"
+UPDATE_CONFIG_DONE=$(cat "$UPDATE_CONFIG_DONE_FILE" 2>/dev/null || echo 0)
+
+# reset xfconf property if it has given default value
+reset_xfconf_if_default() {
+    local channel="$1"
+    local prop="$2"
+    local default="$3"
+    local current
+
+    current=$(xfconf-query -c "$channel" -p "$prop") || return 0
+    if [ "$current" = "$default" ]; then
+        xfconf-query -c "$channel" -p "$prop" -r
+    fi
+}
+
+if [ "$UPDATE_CONFIG_DONE" -lt 1 ]; then
+    reset_xfconf_if_default \
+        "xfce4-keyboard-shortcuts" \
+        "/commands/custom/<Control><Shift>P" \
+        "qvm-pause --all"
+    reset_xfconf_if_default \
+        "xfce4-keyboard-shortcuts" \
+        "/commands/custom/<Control><Alt><Shift>P" \
+        "qvm-unpause --all"
+fi
+
+UPDATE_CONFIG_DONE=1
+echo "$UPDATE_CONFIG_DONE" > "$UPDATE_CONFIG_DONE_FILE" 

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Update Qubes specific xfce config
+Exec=/usr/lib/qubes/update-xfce-config
+Terminal=false
+Type=Application
+OnlyShowIn=XFCE;
+StartupNotify=false
