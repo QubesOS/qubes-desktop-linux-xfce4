@@ -2,10 +2,6 @@
 # Common Makefile for building RPMs
 #
 
-# the pathnames are relative to the subproject directory (e.g. xfwm4/)
-# so that e.g. this file is: ../Makefile.common
-#
-
 WORKDIR := $(CURDIR)
 SPECDIR ?= $(WORKDIR)
 SRCRPMDIR ?= $(WORKDIR)/../srpm
