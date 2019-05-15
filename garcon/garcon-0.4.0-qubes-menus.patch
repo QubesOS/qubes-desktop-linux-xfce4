@@ -4,12 +4,12 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
 @@ -4,6 +4,7 @@
  <Menu>
      <Name>Xfce</Name>
- 
+
 +    <!-- Read standard .directory and .desktop file locations -->
      <DefaultAppDirs/>
      <DefaultDirectoryDirs/>
      <DefaultMergeDirs/>
-@@ -11,16 +12,21 @@
+@@ -11,16 +12,22 @@
      <Include>
          <Category>X-Xfce-Toplevel</Category>
      </Include>
@@ -21,7 +21,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
 +
 +    <!-- Add stock tarball installs to menus -->
 +    <AppDir>/usr/local/share/applications</AppDir>
- 
+
      <Layout>
 +        <Filename>qubes-manager.desktop</Filename>
          <Filename>xfce4-run.desktop</Filename>
@@ -33,12 +33,13 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
          <Separator/>
 -        <Menuname>Settings</Menuname>
 +        <Menuname>System Tools</Menuname>
++        <Menuname>Qubes Tools</Menuname>
          <Separator/>
          <Merge type="all"/>
          <Separator/>
-@@ -29,135 +35,24 @@
+@@ -29,135 +36,24 @@
      </Layout>
- 
+
      <Menu>
 -        <Name>Settings</Name>
 -        <Directory>xfce-settings.directory</Directory>
@@ -53,7 +54,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
 +            <Category>X-Qubes-VM</Category>
 +            <Filename>Thunar.desktop</Filename>
 +        </Exclude>
- 
+
          <Layout>
              <Filename>xfce-settings-manager.desktop</Filename>
              <Separator/>
@@ -178,7 +179,7 @@ diff -ur garcon-0.4.0.orig/data/xfce/xfce-applications.menu garcon-0.4.0/data/xf
 -            <All/>
 -        </Include>
      </Menu>
- 
+
 +    <!-- Read in overrides and child menus from applications.d -->
 +    <DefaultMergeDirs/>
  </Menu>
