@@ -1,6 +1,6 @@
 Name:		xfce4-settings-qubes
 Version:	4.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Default Xfce4 panel settings for Qubes
 
 Group:		User Interface/Desktops
