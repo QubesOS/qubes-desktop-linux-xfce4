@@ -1,0 +1,189 @@
+diff --git a/src/frame.c b/src/frame.c
+index f8d81db6b..b65d8da0c 100644
+--- a/src/frame.c
++++ b/src/frame.c
+@@ -577,7 +577,8 @@ frameCreateTitlePixmap (Client * c, int state, int left, int right, xfwmPixmap *
+     {
+         frameFillTitlePixmap (c, state, TITLE_3, x, w3, top_height, title_pm, top_pm);
+         title_x = hoffset + x;
+-        if (screen_info->params->title_shadow[state])
++        if (c->qubes_label_color == QUBES_LABEL_DOM0 &&
++            screen_info->params->title_shadow[state])
+         {
+             gdk_gc_get_values (screen_info->title_shadow_colors[state].gc, &values);
+             gdk_gc_set_values (gc, &values, GDK_GC_FOREGROUND);
+@@ -593,7 +594,7 @@ frameCreateTitlePixmap (Client * c, int state, int left, int right, xfwmPixmap *
+                 gdk_draw_layout (gpixmap, gc, title_x, title_y + 1, layout);
+             }
+         }
+-        gdk_gc_get_values (screen_info->title_colors[state].gc, &values);
++        gdk_gc_get_values (screen_info->qubes_title_colors[decoration->qubes_title_variant][state].gc, &values);
+         gdk_gc_set_values (gc, &values, GDK_GC_FOREGROUND);
+         gdk_draw_layout (gpixmap, gc, title_x, title_y, layout);
+         x = x + w3;
+diff --git a/src/screen.c b/src/screen.c
+index 52847dd49..96c8c486e 100644
+--- a/src/screen.c
++++ b/src/screen.c
+@@ -304,10 +304,13 @@ myScreenInit (DisplayInfo *display_info, GdkScreen *gscr, unsigned long event_ma
+     screen_info->box_gc = None;
+     screen_info->black_gc = NULL;
+     screen_info->white_gc = NULL;
+-    screen_info->title_colors[ACTIVE].gc = NULL;
+-    screen_info->title_colors[ACTIVE].allocated = FALSE;
+-    screen_info->title_colors[INACTIVE].gc = NULL;
+-    screen_info->title_colors[INACTIVE].allocated = FALSE;
++    for (i = 0; i < MAX_QUBES_TITLES; i++)
++    {
++        screen_info->qubes_title_colors[i][ACTIVE].gc = NULL;
++        screen_info->qubes_title_colors[i][ACTIVE].allocated = FALSE;
++        screen_info->qubes_title_colors[i][INACTIVE].gc = NULL;
++        screen_info->qubes_title_colors[i][INACTIVE].allocated = FALSE;
++    }
+     screen_info->title_shadow_colors[ACTIVE].gc = NULL;
+     screen_info->title_shadow_colors[ACTIVE].allocated = FALSE;
+     screen_info->title_shadow_colors[INACTIVE].gc = NULL;
+diff --git a/src/screen.h b/src/screen.h
+index 1b3c85fe2..662553d4b 100644
+--- a/src/screen.h
++++ b/src/screen.h
+@@ -72,6 +72,9 @@ struct _Decoration
+     xfwmPixmap sides[SIDE_COUNT][2];
+     xfwmPixmap title[TITLE_COUNT][2];
+     xfwmPixmap top[TITLE_COUNT][2];
++
++    /* Index in screen_info->qubes_title_colors */
++    int qubes_title_variant;
+ };
+ 
+ struct _ScreenInfo
+@@ -90,8 +93,8 @@ struct _ScreenInfo
+     gint pointer_grabs;
+ 
+     /* Theme pixmaps and other params, per screen */
+-    XfwmColor title_colors[2];
+-    XfwmColor title_shadow_colors[2];
++    XfwmColor qubes_title_colors[MAX_QUBES_TITLES][2];
++    XfwmColor title_shadow_colors[2];  /* only for QUBES_TITLE_ORIGINAL */
+     XfwmColor qubes_label_colors[MAX_QUBES_LABELS];
+     xfwmColorSymbol colsym[ XPM_COLOR_SYMBOL_SIZE + 1 ];
+     /* hash table label_color->Decoration* */
+diff --git a/src/settings.c b/src/settings.c
+index f0e2dd899..45e0fd413 100644
+--- a/src/settings.c
++++ b/src/settings.c
+@@ -291,6 +291,34 @@ setXfwmColor (ScreenInfo *screen_info, XfwmColor *color, Settings *rc, int id, c
+     }
+ }
+ 
++static void
++setXfwmColorSimple (ScreenInfo *screen_info, XfwmColor *color, const GdkColor *src_col)
++{
++    if (color->allocated)
++    {
++        gdk_colormap_free_colors (gdk_screen_get_system_colormap (screen_info->gscr), &color->col, 1);
++        color->allocated = FALSE;
++    }
++    color->col = *src_col;
++
++    if (gdk_colormap_alloc_color (gdk_screen_get_system_colormap (screen_info->gscr),
++                                  &color->col, FALSE, FALSE))
++    {
++        color->allocated = TRUE;
++        if (color->gc)
++        {
++            g_object_unref (G_OBJECT (color->gc));
++        }
++        color->gc = gdk_gc_new (myScreenGetGdkWindow (screen_info));
++        gdk_gc_set_foreground (color->gc, &color->col);
++    }
++    else
++    {
++        gdk_beep ();
++        g_message (_("%s: Cannot allocate color\n"), g_get_prgname ());
++    }
++}
++
+ static int
+ getTitleShadow (Settings *rc, const gchar * name)
+ {
+@@ -422,6 +450,22 @@ Decoration *getDecorationForColor(ScreenInfo *screen_info, guint32 color)
+         xfwmPixmapLoad (screen_info, &decoration->top[i][INACTIVE], theme, imagename, screen_info->colsym, color);
+     }
+ 
++    if (color == QUBES_LABEL_DOM0) {
++        decoration->qubes_title_variant = QUBES_TITLE_ORIGINAL;
++    } else {
++        gdouble h, s, v;
++        gtk_rgb_to_hsv(
++            1.0*((color & 0xFF0000) >> 16)/0xFF,
++            1.0*((color & 0x00FF00) >>  8)/0xFF,
++            1.0*((color & 0x0000FF) >>  0)/0xFF,
++            &h, &s, &v);
++        if (v < 0.2) {
++            decoration->qubes_title_variant = QUBES_TITLE_LIGHT;
++        } else {
++            decoration->qubes_title_variant = QUBES_TITLE_DARK;
++        }
++    }
++
+     g_hash_table_insert(screen_info->decoration, GINT_TO_POINTER(color), decoration);
+     return decoration;
+ }
+@@ -587,8 +631,15 @@ loadTheme (ScreenInfo *screen_info, Settings *rc)
+         }
+     }
+ 
+-    setXfwmColor (screen_info, &screen_info->title_colors[ACTIVE], rc, 0, "fg", "selected");
+-    setXfwmColor (screen_info, &screen_info->title_colors[INACTIVE], rc, 1, "fg", "insensitive");
++    setXfwmColor (screen_info, &screen_info->qubes_title_colors[QUBES_TITLE_ORIGINAL][ACTIVE], rc, 0, "fg", "selected");
++    setXfwmColor (screen_info, &screen_info->qubes_title_colors[QUBES_TITLE_ORIGINAL][INACTIVE], rc, 1, "fg", "insensitive");
++
++    setXfwmColorSimple (screen_info, &screen_info->qubes_title_colors[QUBES_TITLE_DARK][ACTIVE], &qubes_title_colors_dark[ACTIVE]);
++    setXfwmColorSimple (screen_info, &screen_info->qubes_title_colors[QUBES_TITLE_DARK][INACTIVE], &qubes_title_colors_dark[INACTIVE]);
++
++    setXfwmColorSimple (screen_info, &screen_info->qubes_title_colors[QUBES_TITLE_LIGHT][ACTIVE], &qubes_title_colors_light[ACTIVE]);
++    setXfwmColorSimple (screen_info, &screen_info->qubes_title_colors[QUBES_TITLE_LIGHT][INACTIVE], &qubes_title_colors_light[INACTIVE]);
++
+     setXfwmColor (screen_info, &screen_info->title_shadow_colors[ACTIVE], rc, 2, "dark", "selected");
+     setXfwmColor (screen_info, &screen_info->title_shadow_colors[INACTIVE], rc, 3, "dark", "insensitive");
+ 
+diff --git a/src/settings.h b/src/settings.h
+index f74889abd..049607004 100644
+--- a/src/settings.h
++++ b/src/settings.h
+@@ -169,6 +169,14 @@ enum
+     MAX_QUBES_LABELS = 9
+ };
+ 
++enum
++{
++    QUBES_TITLE_ORIGINAL = 0,
++    QUBES_TITLE_DARK = 1,
++    QUBES_TITLE_LIGHT = 2,
++    MAX_QUBES_TITLES = 3
++};
++
+ /* RGB values */
+ static const guint qubes_label_colors[] = {
+     0xFFFFFFFF, /* QUBES_LABEL_DOM0 */
+@@ -189,6 +197,19 @@ struct _XfwmColor
+     gboolean allocated;
+ };
+ 
++/* Title colors: active, inactive */
++/* (GdkColor is: 32-bit pixel (unused here), 16-bit red, green, blue) */
++
++static const GdkColor qubes_title_colors_dark[2] = {
++    { 0, 0, 0, 0 },
++    { 0, 0x5555, 0x5555, 0x5555 },
++};
++
++static const GdkColor qubes_title_colors_light[2] = {
++    { 0, 0xCCCC, 0xCCCC, 0xCCCC },
++    { 0, 0x8000, 0x8000, 0x8000 },
++};
++
+ struct _Settings
+ {
+     gchar  *option;
