@@ -1,53 +1,36 @@
 Name:		xfce4-settings-qubes
-Version:	4.0.3
-Release:	2%{?dist}
+Version:	@VERSION@
+Release:	@REL@%{?dist}
 Summary:	Default Xfce4 panel settings for Qubes
 
 Group:		User Interface/Desktops
 License:	GPLv2+
 URL:		http://www.qubes-os.org/
-Source0:	xfce4-panel-qubes-default.xml
-Source2:	xsettings.xml
-Source3:	xfwm4.xml
-Source4:	xfce4-desktop.xml
-Source5:	xfce4-session.xml
-Source6:	xfce4-power-manager.xml
-Source7:	xfce4-keyboard-shortcuts.xml
-Source8:	xfce4-xss-lock.desktop
-Source9:	qubes-update-xfce-config.desktop
-Source10:	update-xfce-config
+Source0:	%{name}-%{version}.tar.gz
 
 Requires:	qubes-artwork
 Requires:	xfce4-panel
 Requires:	xss-lock
 Requires(post):	xfce4-panel
 
+
 %description
 %{summary}
 
-%prep
 
-%build
+%prep
+%setup -q
 
 
 %install
-install -m 644 -D %{SOURCE0} %{buildroot}%{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes
-install -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes
-install -m 644 -D %{SOURCE3} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml
-install -m 644 -D %{SOURCE4} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
-install -m 644 -D %{SOURCE5} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
-install -m 644 -D %{SOURCE6} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
-install -m 644 -D %{SOURCE7} %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
-ln -s ../../panel/default.xml %{buildroot}%{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
-install -m 644 -D %{SOURCE8} %{buildroot}%{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
-install -m 644 -D %{SOURCE9} %{buildroot}%{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
-install -m 755 -D %{SOURCE10} %{buildroot}/usr/lib/qubes/update-xfce-config
+%make_install
+
 
 %define settings_replace() \
 qubesfile="%{1}" \
 origfile=${qubesfile%.qubes} \
 backupfile=${origfile}.xfce4 \
-if [ -r "$origfile" -a ! -r "$backupfile" ]; then \
+if [ -r "$origfile" ] && [ ! -r "$backupfile" ]; then \
 	mv -f "$origfile" "$backupfile" \
 fi \
 cp -f "$qubesfile" "$origfile" \
@@ -56,17 +39,22 @@ cp -f "$qubesfile" "$origfile" \
 %triggerin -- xfce4-panel
 %settings_replace %{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes
 
+
 %triggerin -- xfce4-settings
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes
+
 
 %triggerin -- xfce4-session
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes
 
+
 %triggerin -- xfce4-power-manager
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
 
+
 %triggerin -- libxfce4ui
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
+
 
 %triggerin -- xscreensaver-base
 
@@ -85,6 +73,7 @@ sed -e '/! Qubes options begin/,/! Qubes options end/c \
 
 update-xscreensaver-hacks
 
+
 %postun
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes"
@@ -99,6 +88,7 @@ if [ $1 -lt 1 ]; then
 	done
 fi
 
+
 %files
 %{_sysconfdir}/xdg/xfce4/panel/default.xml.qubes
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml.qubes
@@ -112,5 +102,6 @@ fi
 %{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
 /usr/lib/qubes/update-xfce-config
 
-%changelog
 
+%changelog
+@CHANGELOG@

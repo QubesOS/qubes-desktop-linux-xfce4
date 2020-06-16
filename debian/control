@@ -1,0 +1,18 @@
+Source: xfce4-settings-qubes
+Section: xfce
+Priority: extra
+Maintainer: Frédéric Pierret (fepitre) <frederic.pierret@qubes-os.org>
+Build-Depends:
+  debhelper (>= 10~),
+  config-package-dev
+Standards-Version: 4.3.0
+Homepage: http://www.qubes-os.org
+
+Package: xfce4-settings-qubes
+Section: xfce
+Architecture: amd64
+Depends: qubes-artwork, xfce4-panel, xss-lock, ${shlibs:Depends}, ${misc:Depends}
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: Default Xfce4 panel settings for Qubes.
+  Default Xfce4 panel and menu settings for Qubes.
