@@ -3,3 +3,4 @@ srpm/
 pkgs/
 */*.tar.gz
 */*.tar.bz2
+debian/changelog.*

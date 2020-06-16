@@ -15,3 +15,7 @@ install:
 	install -m 644 -D xfce-applications.menu $(DESTDIR)/etc/xdg/menus/xfce-applications.menu.qubes
 
 	ln -s ../../panel/default.xml $(DESTDIR)/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+
+clean:
+	rm -rf debian/changelog.*
+	rm -rf pkgs
