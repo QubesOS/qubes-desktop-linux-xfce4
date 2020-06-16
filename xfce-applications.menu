@@ -1,0 +1,59 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+  "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+    <Name>Xfce</Name>
+
+    <!-- Read standard .directory and .desktop file locations -->
+    <DefaultAppDirs/>
+    <DefaultDirectoryDirs/>
+    <DefaultMergeDirs/>
+
+    <Include>
+        <Category>X-Xfce-Toplevel</Category>
+    </Include>
+    <Exclude>
+        <Filename>exo-file-manager.desktop</Filename>
+        <Filename>exo-mail-reader.desktop</Filename>
+        <Filename>exo-web-browser.desktop</Filename>
+    </Exclude>
+
+    <!-- Add stock tarball installs to menus -->
+    <AppDir>/usr/local/share/applications</AppDir>
+
+    <Layout>
+        <Filename>qubes-manager.desktop</Filename>
+        <Filename>xfce4-run.desktop</Filename>
+        <Filename>exo-terminal-emulator.desktop</Filename>
+        <Separator/>
+        <Menuname>System Tools</Menuname>
+        <Menuname>Qubes Tools</Menuname>
+        <Separator/>
+        <Merge type="all"/>
+        <Separator/>
+        <Filename>xfce4-about.desktop</Filename>
+        <Filename>xfce4-session-logout.desktop</Filename>
+    </Layout>
+
+    <Menu>
+        <Name>System Tools</Name>
+        <Directory>qubes-System-Tools.directory</Directory>
+        <Include>
+            <All/>
+        </Include>
+        <Exclude>
+            <Category>X-Xfce-Toplevel</Category>
+            <Category>X-Qubes-VM</Category>
+            <Filename>Thunar.desktop</Filename>
+        </Exclude>
+
+        <Layout>
+            <Filename>xfce-settings-manager.desktop</Filename>
+            <Separator/>
+            <Merge type="all"/>
+        </Layout>
+    </Menu>
+
+    <!-- Read in overrides and child menus from applications.d -->
+    <DefaultMergeDirs/>
+</Menu>

@@ -8,4 +8,5 @@ etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes
 etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 etc/xdg/autostart/xfce4-xss-lock.desktop
 etc/xdg/autostart/qubes-update-xfce-config.desktop
+etc/xdg/menus/xfce-applications.menu.qubes
 usr/lib/qubes/update-xfce-config
