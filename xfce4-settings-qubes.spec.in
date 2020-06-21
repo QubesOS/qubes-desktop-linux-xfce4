@@ -13,6 +13,10 @@ Requires:	xfce4-panel
 Requires:	xss-lock
 Requires(post):	xfce4-panel
 
+# We ship garcon menu file into this package
+# the fork is not needed anymore
+Conflicts:  garcon = 1000:0.6.4
+Requires: garcon >= 0.6.2
 
 %description
 %{summary}
