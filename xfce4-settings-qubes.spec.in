@@ -61,8 +61,9 @@ cp -f "$qubesfile" "$origfile" \
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 
 
-%triggerin -- garcon
-%settings_replace %{_sysconfdir}/xdg/menus/xfce-applications.menu.qubes
+%triggerin -- xfce4-session
+# Qubes menus prefix
+sed -i 's|XDG_MENU_PREFIX="xfce-"|XDG_MENU_PREFIX="xfce-qubes-"|g' /etc/xdg/xfce4/xinitrc
 
 
 %triggerin -- xscreensaver-base
@@ -89,7 +90,6 @@ REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml.qubes"
 REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes"
-REPLACEFILE="${REPLACEFILE} %{_sysconfdir}/xdg/menus/xfce-applications.menu.qubes"
 if [ $1 -lt 1 ]; then
 	for file in ${REPLACEFILE}; do
 		origfile=${file%.qubes}
@@ -110,7 +110,6 @@ fi
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 %{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 %{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
-%{_sysconfdir}/xdg/menus/xfce-applications.menu.qubes
 /usr/lib/qubes/update-xfce-config
 
 

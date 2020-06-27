@@ -12,7 +12,6 @@ install:
 	install -m 644 -D xfce4-xss-lock.desktop $(DESTDIR)/etc/xdg/autostart/xfce4-xss-lock.desktop
 	install -m 644 -D qubes-update-xfce-config.desktop $(DESTDIR)/etc/xdg/autostart/qubes-update-xfce-config.desktop
 	install -m 755 -D update-xfce-config $(DESTDIR)/usr/lib/qubes/update-xfce-config
-	install -m 644 -D xfce-applications.menu $(DESTDIR)/etc/xdg/menus/xfce-applications.menu.qubes
 
 	ln -s ../../panel/default.xml $(DESTDIR)/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 
