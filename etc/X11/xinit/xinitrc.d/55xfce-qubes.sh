@@ -1,0 +1,1 @@
+../../Xsession.d/55xfce-qubes

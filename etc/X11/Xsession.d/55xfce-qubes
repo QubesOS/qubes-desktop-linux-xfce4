@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Use Qubes provided menu instead of default XFCE one
+XDG_MENU_PREFIX="qubes-"
+export XDG_MENU_PREFIX

@@ -61,11 +61,6 @@ cp -f "$qubesfile" "$origfile" \
 %settings_replace %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 
 
-%triggerin -- xfce4-session
-# Qubes menus prefix
-sed -i 's|XDG_MENU_PREFIX="xfce-"|XDG_MENU_PREFIX="xfce-qubes-"|g' /etc/xdg/xfce4/xinitrc
-
-
 %triggerin -- xscreensaver-base
 
 conffile=/etc/xscreensaver/XScreenSaver.ad.tail
@@ -110,6 +105,7 @@ fi
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 %{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 %{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
+%{_sysconfdir}/X11/xinit/xinitrc.d/55xfce-qubes.sh
 /usr/lib/qubes/update-xfce-config
 
 
