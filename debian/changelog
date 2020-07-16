@@ -1,3 +1,17 @@
+xfce4-settings-qubes (4.0.4-1) unstable; urgency=medium
+
+  [ Frédéric Pierret (fepitre) ]
+  * travis: switch to dom0 Fedora 31
+  * debian: initial packaging
+  * Import garcon conf files
+  * Makefile: add clean of pkgs and debian changelog.*
+  * spec: ensure using upstream garcon
+  * XFCE menu is provided by qubes-menus
+  * Set XDG_MENU_PREFIX with xinitrc/Xsession script
+  * spec: exclude older garcon version too
+
+ -- Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>  Thu, 16 Jul 2020 05:53:40 +0200
+
 xfce4-settings-qubes (4.0.3-2) unstable; urgency=medium
 
   Initial commit
