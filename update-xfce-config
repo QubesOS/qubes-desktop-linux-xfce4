@@ -1,8 +1,12 @@
 #!/bin/sh
 
-set -e
+set -eu
 
 UPDATE_CONFIG_DONE_FILE="$HOME/.config/qubes-xfce-config-update"
+UPDATE_CONFIG_LOCK_FILE="$UPDATE_CONFIG_DONE_FILE.lock"
+exec 3>>"$UPDATE_CONFIG_LOCK_FILE"
+flock 3
+{
 UPDATE_CONFIG_DONE=$(cat "$UPDATE_CONFIG_DONE_FILE" 2>/dev/null || echo 0)
 
 # reset xfconf property if it has given default value
@@ -14,7 +18,11 @@ reset_xfconf_if_default() {
 
     current=$(xfconf-query -c "$channel" -p "$prop") || return 0
     if [ "$current" = "$default" ]; then
-        xfconf-query -c "$channel" -p "$prop" -r
+        if [ "$#" -gt 3 ]; then
+            xfconf-query -c "$channel" -p "$prop" -s "$4"
+        else
+            xfconf-query -c "$channel" -p "$prop" -r
+        fi
     fi
 }
 
@@ -28,6 +36,16 @@ if [ "$UPDATE_CONFIG_DONE" -lt 1 ]; then
         "/commands/custom/<Control><Alt><Shift>P" \
         "qvm-unpause --all"
 fi
+if [ "$UPDATE_CONFIG_DONE" -lt 2 ]; then
+    reset_xfconf_if_default \
+        "xfce4-keyboard-shortcuts" \
+        "/commands/custom/<Control><Alt>Escape" \
+        "xkill" \
+        "qvm-xkill"
+fi
 
-UPDATE_CONFIG_DONE=1
+
+UPDATE_CONFIG_DONE=2
 echo "$UPDATE_CONFIG_DONE" > "$UPDATE_CONFIG_DONE_FILE" 
+} 3>&-
+# vim: set ft=sh ff=unix fenc=UTF-8 eol sw=4 ts=4 sts=4 et:

@@ -11,6 +11,7 @@ Source0:	%{name}-%{version}.tar.gz
 Requires:	qubes-artwork
 Requires:	xfce4-panel
 Requires:	xss-lock
+Requires:	util-linux
 Requires(post):	xfce4-panel
 
 # We ship garcon menu file into this package
