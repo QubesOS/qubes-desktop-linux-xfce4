@@ -1,3 +1,15 @@
+xfce4-settings-qubes (4.0.5-1) unstable; urgency=medium
+
+  [ Frédéric Pierret (fepitre) ]
+  * Add .gitlab-ci.yml
+
+  [ Demi Marie Obenour ]
+  * Replace “xkill” with “qvm-xkill”
+  * Update existing XFCE configurations
+  * Update both default and custom configurations
+
+ -- Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>  Wed, 23 Dec 2020 22:53:49 +0100
+
 xfce4-settings-qubes (4.0.4-1) unstable; urgency=medium
 
   [ Frédéric Pierret (fepitre) ]
