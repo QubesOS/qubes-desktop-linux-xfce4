@@ -8,6 +8,7 @@ License:	GPLv2+
 URL:		http://www.qubes-os.org/
 Source0:	%{name}-%{version}.tar.gz
 
+BuildRequires: make
 Requires:	qubes-artwork
 Requires:	xfce4-panel
 Requires:	xss-lock
