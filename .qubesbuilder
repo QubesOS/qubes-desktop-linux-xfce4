@@ -1,10 +1,10 @@
 host:
   rpm:
-    spec:
+    build:
     - xfce4-settings-qubes.spec
 vm:
   rpm:
-    spec:
+    build:
     - xfce4-settings-qubes.spec
   deb:
     build:
