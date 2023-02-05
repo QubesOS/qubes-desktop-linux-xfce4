@@ -108,6 +108,7 @@ fi
 %{_sysconfdir}/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml.qubes
 %{_sysconfdir}/xdg/autostart/xfce4-xss-lock.desktop
 %{_sysconfdir}/xdg/autostart/qubes-update-xfce-config.desktop
+%{_sysconfdir}/xdg/autostart/xscreensaver-xfce.desktop
 %{_sysconfdir}/X11/xinit/xinitrc.d/55xfce-qubes.sh
 /usr/lib/qubes/update-xfce-config
 
