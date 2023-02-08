@@ -1,3 +1,11 @@
+xfce4-settings-qubes (4.2.0-2) unstable; urgency=medium
+
+  * Enable xscreensaver under xfce
+  * Update xsettings.xml for Xfce 4.16
+  * Switch default menu to the new shiny one
+
+ -- Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>  Wed, 08 Feb 2023 18:19:17 +0100
+
 xfce4-settings-qubes (4.0.6-2) unstable; urgency=medium
 
   [ Frédéric Pierret (fepitre) ]
