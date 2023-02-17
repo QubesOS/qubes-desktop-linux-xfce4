@@ -11,7 +11,14 @@ Homepage: http://www.qubes-os.org
 Package: xfce4-settings-qubes
 Section: xfce
 Architecture: amd64
-Depends: qubes-artwork, xfce4-panel, xss-lock, ${shlibs:Depends}, ${misc:Depends}, util-linux
+Depends:
+ qubes-artwork,
+ qubes-desktop-linux-menu,
+ xfce4-panel,
+ xss-lock,
+ ${shlibs:Depends},
+ ${misc:Depends},
+ util-linux
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}
 Description: Default Xfce4 panel settings for Qubes.

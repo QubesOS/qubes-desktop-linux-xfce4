@@ -10,6 +10,7 @@ Source0:	%{name}-%{version}.tar.gz
 
 BuildRequires: make
 Requires:	qubes-artwork
+Requires:	qubes-desktop-linux-menu
 Requires:	xfce4-panel
 Requires:	xss-lock
 Requires:	util-linux
