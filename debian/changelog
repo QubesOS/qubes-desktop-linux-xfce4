@@ -1,3 +1,10 @@
+xfce4-settings-qubes (4.2.2-1) unstable; urgency=medium
+
+  * Fix power manager plugin icon
+  * ci: drop R4.1
+
+ -- Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>  Thu, 27 Jul 2023 18:59:29 +0200
+
 xfce4-settings-qubes (4.2.1-1) unstable; urgency=medium
 
   * Pull in new menu via dependencies
