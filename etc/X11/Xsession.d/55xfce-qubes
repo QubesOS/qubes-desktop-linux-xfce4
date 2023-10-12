@@ -3,3 +3,7 @@
 # Use Qubes provided menu instead of default XFCE one
 XDG_MENU_PREFIX="qubes-"
 export XDG_MENU_PREFIX
+
+# Prevent saving xfce cache data onto the disk
+XDG_CACHE_HOME="$XDG_RUNTIME_DIR/xfce-cache"
+export XDG_CACHE_HOME
