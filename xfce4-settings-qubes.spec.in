@@ -8,6 +8,7 @@ License:	GPLv2+
 URL:		http://www.qubes-os.org/
 Source0:	%{name}-%{version}.tar.gz
 
+BuildArch: noarch
 BuildRequires: make
 Requires:	qubes-artwork
 Requires:	qubes-desktop-linux-menu
