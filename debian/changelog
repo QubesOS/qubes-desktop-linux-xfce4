@@ -1,3 +1,16 @@
+xfce4-settings-qubes (4.2.4-1) unstable; urgency=medium
+
+  [ ndmalc ]
+  * Change default value of panel output-name to 'Primary' in order to
+    have xfce taskbar (panel) shown on primary display by default.
+    Fixes: https://github.com/QubesOS/qubes-issues/issues/10664
+
+  [ Marek Marczykowski-Górecki ]
+  * Disable automatic session saving on logout
+  * Disable forced DPI to fix font kerning
+
+ -- Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>  Fri, 26 Jun 2026 15:38:31 +0200
+
 xfce4-settings-qubes (4.2.3-1) unstable; urgency=medium
 
   * rpm: mark packages as noarch
