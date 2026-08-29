@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+
+"""Select VM from a dialog with pretty ComboBox."""
+
+import itertools
+import os
+import argparse
+
+# pylint: disable=import-error,wrong-import-position
+# pylint: disable=wrong-import-order
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+
+import qrexec.utils
+from qrexec.tools.qrexec_policy_agent import RPCConfirmationWindow
+
+
+class TargetSelectorDialog(RPCConfirmationWindow):
+
+    def __init__(self, title="Select VM", description="Select VM to send to",
+                 filter=None):
+        # Must set this before initlaizing the base class, because it might
+        # use it.
+        self._filter = filter
+        super().__init__(self.get_entries(), "dom0", "dummy_service",
+                         "dummy_argument", self.get_targets(), None)
+
+        # Remove unneeded widgets
+        self._gtk_builder.get_object("sourceDescLabel").destroy()
+        self._gtk_builder.get_object("sourceEntry").destroy()
+        self._gtk_builder.get_object("operationDescLabel").destroy()
+        self._gtk_builder.get_object("rpcLabel").destroy()
+
+        # Customize RPC widget strings
+        wnd = self._gtk_builder.get_object(self._source_id["window"])
+        wnd.connect("destroy", Gtk.main_quit)
+        wnd.set_title(title)
+        self._gtk_builder.get_object("rpcDescription").set_label(description)
+
+    @property
+    def system_info(self):
+        sinfo = getattr(self, '_system_info', None)
+        return sinfo if sinfo else qrexec.utils.get_system_info()
+
+    @property
+    def target(self):
+        if self._confirmed:
+            return self._target_name
+        return False
+
+    def start(self):
+        self._show()
+        Gtk.main()
+
+    def get_entries(self):
+        ### From qrexec.tools.qrexec_policy_exec.AgentAskResolution:execute
+        domains = self.system_info["domains"]
+        # prepare icons
+        icons = {
+            name: domains[name]["icon"]
+            for name in domains.keys()
+            if not name.startswith("uuid:")
+        }
+        for dispvm_base in domains:
+            if (
+                dispvm_base.startswith("uuid:")
+                or not domains[dispvm_base]["template_for_dispvms"]
+            ):
+                continue
+            dispvm_api_name = "@dispvm:" + dispvm_base
+            icons[dispvm_api_name] = domains[dispvm_base]["icon"]
+            icons[dispvm_api_name] = icons[dispvm_api_name].replace(
+                "app", "disp"
+            )
+
+        ### From qrexec.tools.qrexec_policy_agent.PolicyAgent:handle_ask
+        entries_info = {}
+        for domain_name, icon in icons.items():
+            entries_info[domain_name] = {"icon": icon}
+
+        return entries_info
+
+    def get_targets(self):
+        domains = self.system_info["domains"]
+        if self._filter:
+            domains = filter(self._filter, domains)
+        return set(qrexec.utils.uuid_to_name(domains, target)
+                   for target in domains)
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "-d",
+    "--description",
+    metavar="TEXT",
+    type=str,
+    default="Select VM to copy screenshot to:",
+    help="description why a VM is being selected",
+)
+
+parser.add_argument(
+    "-t",
+    "--title",
+    metavar="TEXT",
+    type=str,
+    default="Select VM",
+    help="window title",
+)
+
+
+def main():
+    args = parser.parse_args()
+
+    dlg = TargetSelectorDialog(title=args.title, description=args.description)
+    dlg.start()
+    target = dlg.target
+
+    if not target:
+        return 1
+    print(f"{target}")
+    return 0
+
+
+if __name__ == "__main__":
+    exit(main())
+
