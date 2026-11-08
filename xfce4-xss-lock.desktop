@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=Handle logind session lock
+Name[he]=טיפול בנעילת הסשן של logind
 Comment=Launch xflock4 on systemd-logind request
+Comment[he]=הפעלת xflock4 לפי בקשה של systemd-logind
 Exec=xss-lock xflock4
 Terminal=false
 Type=Application

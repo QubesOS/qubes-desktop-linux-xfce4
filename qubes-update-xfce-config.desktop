@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Update Qubes specific xfce config
+Name[he]=עדכון הגדרות Xfce של Qubes
 Exec=/usr/lib/qubes/update-xfce-config
 Terminal=false
 Type=Application
