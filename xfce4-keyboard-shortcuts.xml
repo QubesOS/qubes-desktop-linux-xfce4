@@ -15,6 +15,7 @@
       <property name="&lt;Primary&gt;&lt;Alt&gt;l" type="string" value="xflock4"/>
       <property name="XF86Display" type="string" value="xfce4-display-settings --minimal"/>
       <property name="&lt;Super&gt;p" type="string" value="xfce4-display-settings --minimal"/>
+      <property name="&lt;Super&gt;m" type="string" value="qubes-app-menu"/>
       <property name="&lt;Primary&gt;Escape" type="string" value="xfdesktop --menu"/>
       <property name="XF86LogOff" type="string" value="xfce4-session-logout"/>
       <property name="&lt;Control&gt;&lt;Alt&gt;L" type="string" value="xfce4-session-logout"/>
