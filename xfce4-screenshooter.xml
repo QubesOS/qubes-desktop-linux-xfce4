@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-screenshooter" version="1.0">
+  <property name="actions" type="empty">
+    <property name="actions" type="int" value="1"/>
+    <property name="action-0" type="empty">
+      <property name="name" type="string" value="Copy to VM"/>
+      <property name="command" type="string" value="/var/lib/qubes/qvm-copy-to-vm-screenshot %f"/>
+    </property>
+  </property>
+</channel>

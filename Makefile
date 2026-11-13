@@ -13,6 +13,8 @@ install-common:
 	install -m 644 -D xscreensaver-xfce.desktop $(DESTDIR)/etc/xdg/autostart/xscreensaver-xfce.desktop
 	install -m 644 -D qubes-update-xfce-config.desktop $(DESTDIR)/etc/xdg/autostart/qubes-update-xfce-config.desktop
 	install -m 755 -D update-xfce-config $(DESTDIR)/usr/lib/qubes/update-xfce-config
+	install -m 755 -D qvm-copy-to-vm-screenshot $(DESTDIR)/usr/lib/qubes/qvm-copy-to-vm-screenshot
+	install -m 755 -D qvm-select-vm $(DESTDIR)/usr/lib/qubes/qvm-select-vm
 
 	ln -s ../../panel/default.xml $(DESTDIR)/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 
