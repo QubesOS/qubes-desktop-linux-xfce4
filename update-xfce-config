@@ -40,8 +40,15 @@ fi
 if [ "$UPDATE_CONFIG_DONE" -lt 2 ]; then
     reset_xfcommand_if_default "<Control><Alt>Escape" "xkill" "qvm-xkill"
 fi
+if [ "$UPDATE_CONFIG_DONE" -lt 3 ]; then
+    # users with their own shortcut list don't get new defaults
+    if xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/override >/dev/null 2>&1 &&
+            ! xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Super>m" >/dev/null 2>&1; then
+        xfconf-query -c xfce4-keyboard-shortcuts -p "/commands/custom/<Super>m" -n -t string -s qubes-app-menu
+    fi
+fi
 
-UPDATE_CONFIG_DONE=2
+UPDATE_CONFIG_DONE=3
 echo "$UPDATE_CONFIG_DONE" > "$UPDATE_CONFIG_DONE_FILE" 
 } 3>&-
 # vim: set ft=sh ff=unix fenc=UTF-8 eol sw=4 ts=4 sts=4 et:
