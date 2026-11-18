@@ -1,0 +1,18 @@
+#!/bin/sh
+destination_vm=$(/usr/lib/qubes/qvm-select-vm --title "[Dom0] Select VM" \
+  --description "Choose VM to send snapshot to:")
+if [ -z "$destination_vm" ]; then
+  notify-send -u critical -i dialog-information \
+    "cancelled!" "no destination VM selected"
+  exit 1
+fi
+
+qvm-copy-to-vm "$destination_vm" "$1"
+
+if [ $? -eq 0 ]; then
+  notify-send -u normal -i dialog-information \
+    "success!" "${1##*/} delivered to $destination_vm"
+else
+  notify-send -u critical -i dialog-information \
+    "failed!" "$1 not delivered to $destination_vm"
+fi
